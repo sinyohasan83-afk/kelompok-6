@@ -16,6 +16,7 @@
             --color-success: #00ff88;
             --color-error: #ff3366;
             --color-warning: #ffaa00;
+            --color-info: #00aaff; /* New color for completed/info */
         }
 
         /* LIGHT THEME VARIABLES */
@@ -27,6 +28,7 @@
             --color-bg-card: #ffffff; /* White Card */
             --color-text: #212529; /* Dark Text */
             --color-text-muted: #6c757d; /* Gray Muted Text */
+            --color-info: #17a2b8; /* Light theme info color */
         }
         
         /* Light Theme Adjustments */
@@ -569,6 +571,16 @@
             background: linear-gradient(135deg, var(--color-success), #00cc66);
             color: var(--color-bg-dark);
         }
+        
+        /* New button style for marking as complete */
+        .btn-info {
+            background: linear-gradient(135deg, var(--color-info), #007799);
+            color: var(--color-bg-dark);
+        }
+        
+        body.light-theme .btn-info {
+            color: #ffffff;
+        }
 
         /* Table */
         .table-container {
@@ -641,6 +653,13 @@
             background: rgba(0, 255, 136, 0.2);
             color: var(--color-success);
             border: 1px solid var(--color-success);
+        }
+        
+        /* New badge style for completed status */
+        .badge-completed {
+            background: rgba(0, 170, 255, 0.2);
+            color: var(--color-info);
+            border: 1px solid var(--color-info);
         }
 
         /* Search & Filter */
@@ -1052,8 +1071,9 @@
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="loginEmail" required placeholder="admin@buku.com / user@buku.com">
+                    <label class="form-label">Identitas</label>
+                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
+                    <input type="text" class="form-control" id="loginEmail" required placeholder="admin@buku.com / user@buku.com">
                 </div>
 
                 <div class="form-group">
@@ -1093,8 +1113,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="regEmail" required>
+                    <label class="form-label">Identitas</label>
+                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
+                    <input type="text" class="form-control" id="regEmail" required>
                 </div>
 
                 <div class="form-group">
@@ -1145,7 +1166,7 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-value" id="totalEntries">0</div>
-                            <div class="stat-label">Total Entri</div>
+                            <div class="stat-label">Total Tamu Masuk</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-value" id="totalUsers">0</div>
@@ -1157,7 +1178,7 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-value" id="todayEntries">0</div>
-                            <div class="stat-label">Entri Hari Ini</div>
+                            <div class="stat-label">Tamu Hari Ini</div>
                         </div>
                     </div>
 
@@ -1194,14 +1215,22 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" id="guestEmail" required>
+                                <label class="form-label">Identitas</label>
+                                <!-- Perubahan: type="email" diubah menjadi type="text" -->
+                                <input type="text" class="form-control" id="guestEmail" required>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Nomor Telepon</label>
                                 <input type="tel" class="form-control" id="guestPhone" required>
                             </div>
+                            
+                            <!-- START: Kolom Jumlah Tamu Baru -->
+                            <div class="form-group">
+                                <label class="form-label">Jumlah Tamu</label>
+                                <input type="number" class="form-control" id="guestCount" required value="1" min="1">
+                            </div>
+                            <!-- END: Kolom Jumlah Tamu Baru -->
 
                             <div class="form-group">
                                 <label class="form-label">Institusi/Perusahaan</label>
@@ -1242,6 +1271,7 @@
                                 <option value="">Semua Status</option>
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
+                                <option value="completed">Selesai</option> <!-- Tambah opsi Selesai -->
                             </select>
                             <select class="form-control filter-select" id="filterDate">
                                 <option value="">Semua Tanggal</option>
@@ -1257,7 +1287,10 @@
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Nama</th>
-                                        <th>Email</th>
+                                        <th>Identitas</th>
+                                        <!-- START: Kolom Jumlah Tamu Baru -->
+                                        <th>Jumlah Tamu</th>
+                                        <!-- END: Kolom Jumlah Tamu Baru -->
                                         <th>Institusi</th>
                                         <th>Keperluan</th>
                                         <th>Bertemu</th>
@@ -1267,7 +1300,7 @@
                                 </thead>
                                 <tbody id="entriesTable">
                                     <tr>
-                                        <td colspan="8" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
+                                        <td colspan="9" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1307,7 +1340,7 @@
                        
                         <div class="search-filter">
                             <div class="search-box">
-                                <input type="text" class="form-control" id="searchUsers" placeholder="🔍 Cari nama atau email...">
+                                <input type="text" class="form-control" id="searchUsers" placeholder="🔍 Cari nama atau identitas...">
                             </div>
                             <select class="form-control filter-select" id="filterRole">
                                 <option value="">Semua Role</option>
@@ -1321,7 +1354,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Email</th>
+                                        <th>Identitas</th>
                                         <th>Telepon</th>
                                         <th>Role</th>
                                         <th>Status</th>
@@ -1345,8 +1378,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" id="profileEmail" required>
+                                <label class="form-label">Identitas</label>
+                                <!-- Perubahan: type="email" diubah menjadi type="text" -->
+                                <input type="text" class="form-control" id="profileEmail" required>
                             </div>
 
                             <div class="form-group">
@@ -1464,13 +1498,20 @@
                     <input type="text" class="form-control" id="editGuestName" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="editGuestEmail" required>
+                    <label class="form-label">Identitas</label>
+                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
+                    <input type="text" class="form-control" id="editGuestEmail" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Nomor Telepon</label>
                     <input type="tel" class="form-control" id="editGuestPhone" required>
                 </div>
+                <!-- START: Kolom Jumlah Tamu Baru (Edit) -->
+                <div class="form-group">
+                    <label class="form-label">Jumlah Tamu</label>
+                    <input type="number" class="form-control" id="editGuestCount" required value="1" min="1">
+                </div>
+                <!-- END: Kolom Jumlah Tamu Baru (Edit) -->
                 <div class="form-group">
                     <label class="form-label">Institusi</label>
                     <input type="text" class="form-control" id="editGuestInstitution" required>
@@ -1522,8 +1563,18 @@
             document.getElementById('confirmMessage').textContent = message;
             confirmCallback = callback;
             const actionBtn = document.getElementById('confirmActionBtn');
-            actionBtn.className = title.includes('Hapus') || title.includes('Logout') ? 'btn btn-danger' : 'btn btn-primary';
-            actionBtn.textContent = title.includes('Hapus') ? 'Ya, Hapus' : (title.includes('Nonaktifkan') ? 'Ya, Nonaktifkan' : 'Ya, Lanjutkan');
+            
+            let btnClass = 'btn-primary';
+            if (title.includes('Hapus') || title.includes('Logout') || title.includes('Nonaktifkan')) {
+                btnClass = 'btn-danger';
+            } else if (title.includes('Approve') || title.includes('Aktifkan')) {
+                btnClass = 'btn-success';
+            } else if (title.includes('Selesai')) { // Tombol Selesai
+                btnClass = 'btn-info';
+            }
+            
+            actionBtn.className = 'btn ' + btnClass;
+            actionBtn.textContent = title.includes('Hapus') ? 'Ya, Hapus' : (title.includes('Nonaktifkan') ? 'Ya, Nonaktifkan' : (title.includes('Selesai') ? 'Ya, Selesai' : 'Ya, Lanjutkan'));
             document.getElementById('confirmationModal').classList.add('active');
         }
 
@@ -1626,6 +1677,12 @@
             return new Promise(resolve => {
                 setTimeout(() => {
                     guestbookEntries = newEntries;
+                    // Pastikan guestCount memiliki nilai default (1) jika tidak ada
+                    guestbookEntries.forEach(e => {
+                        if (typeof e.guestCount === 'undefined' || e.guestCount === null) {
+                            e.guestCount = 1;
+                        }
+                    });
                     localStorage.setItem('initialGuestbook', JSON.stringify(guestbookEntries)); 
                     resolve(true);
                 }, 10);
@@ -1647,7 +1704,8 @@
         // Login
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            // Note: input type is text now, but label is "Identitas"
+            const email = document.getElementById('loginEmail').value; 
             const password = document.getElementById('loginPassword').value;
 
             const user = users.find(u => u.email === email && u.password === password);
@@ -1661,7 +1719,7 @@
                     showMainApp();
                 }, 500);
             } else {
-                showAlert('loginAlert', 'Email atau password salah, atau akun Anda belum aktif!', 'error');
+                showAlert('loginAlert', 'Identitas atau password salah, atau akun Anda belum aktif!', 'error');
             }
         });
 
@@ -1681,7 +1739,7 @@
 
             const newEmail = document.getElementById('regEmail').value;
             if (users.find(u => u.email === newEmail)) {
-                showAlert('registerAlert', 'Email sudah terdaftar!', 'error');
+                showAlert('registerAlert', 'Identitas sudah terdaftar!', 'error');
                 return;
             }
            
@@ -1805,20 +1863,29 @@
                 userId: currentUser.id,
                 userName: currentUser.name,
                 guestName: document.getElementById('guestName').value,
-                email: document.getElementById('guestEmail').value,
+                // The field is labeled "Identitas" but stored as 'email'
+                email: document.getElementById('guestEmail').value, 
                 phone: document.getElementById('guestPhone').value,
+                guestCount: parseInt(document.getElementById('guestCount').value) || 1, // Simpan Jumlah Tamu
                 institution: document.getElementById('guestInstitution').value,
                 purpose: document.getElementById('guestPurpose').value,
                 meetWith: document.getElementById('guestMeetWith').value,
                 date: new Date().toISOString(),
                 status: currentUser.role === 'admin' ? 'approved' : 'pending'
             };
+            
+            // Validasi sederhana untuk Jumlah Tamu
+            if (entry.guestCount < 1) {
+                showAlert('mainAlert', 'Jumlah Tamu harus minimal 1.', 'error');
+                return;
+            }
 
             guestbookEntries.unshift(entry);
             await updateEntryOnServer(guestbookEntries);
 
             showAlert('mainAlert', 'Entri berhasil disimpan!' + (entry.status === 'pending' ? ' Menunggu approval Admin.' : ''), 'success');
             this.reset();
+            document.getElementById('guestCount').value = 1; // Reset jumlah tamu ke 1
 
             await updateDashboard();
             await loadRecentEntries();
@@ -1836,34 +1903,59 @@
             let filtered = filterAndSearchEntries(allData, searchTerm, statusFilter, dateFilter);
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
+                // Perluas colspan menjadi 9 (8 kolom data + 1 kolom Aksi)
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
                 return;
             }
 
-            tbody.innerHTML = filtered.map(entry => `
-                <tr>
-                    <td>${formatDate(entry.date)}</td>
-                    <td>${entry.guestName}</td>
-                    <td>${entry.email}</td>
-                    <td>${entry.institution}</td>
-                    <td>${entry.purpose.substring(0, 50)}${entry.purpose.length > 50 ? '...' : ''}</td>
-                    <td>${entry.meetWith}</td>
-                    <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : 'Approved'}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-primary btn-sm" onclick="viewEntry(${entry.id})">Lihat</button>
-                            ${currentUser.role === 'admin' || entry.userId === currentUser.id ? 
-                                `<button class="btn btn-secondary btn-sm" onclick="editEntry(${entry.id})">Edit</button>
-                                   <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
-                            ${currentUser.role === 'admin' && entry.status === 'pending' ? 
-                                `<button class="btn btn-success btn-sm" onclick="approveEntry(${entry.id})">Approve</button>` : ''}
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = filtered.map(entry => {
+                let actionButton = '';
+                let statusLabel = '';
+                
+                if (entry.status === 'pending') {
+                    statusLabel = `<span class="badge badge-pending">Pending</span>`;
+                    if (currentUser.role === 'admin') {
+                        actionButton = `<button class="btn btn-success btn-sm" onclick="approveEntry(${entry.id})">Approve</button>`;
+                    }
+                } else if (entry.status === 'approved') {
+                    statusLabel = `<span class="badge badge-approved">Approved</span>`;
+                    if (currentUser.role === 'admin') {
+                        // Tombol untuk merubah status menjadi Selesai (completed)
+                        actionButton = `<button class="btn btn-info btn-sm" onclick="completeEntry(${entry.id})">Tandai Selesai</button>`;
+                    }
+                } else if (entry.status === 'completed') {
+                    statusLabel = `<span class="badge badge-completed">Selesai</span>`;
+                }
+                
+                const commonButtons = `
+                    <button class="btn btn-primary btn-sm" onclick="viewEntry(${entry.id})">Lihat</button>
+                    ${currentUser.role === 'admin' || entry.userId === currentUser.id ? 
+                        `<button class="btn btn-secondary btn-sm" onclick="editEntry(${entry.id})">Edit</button>
+                         <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
+                `;
+                
+                return `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.guestName}</td>
+                        <td>${entry.email}</td>
+                        <td>${entry.guestCount || 1}</td> <!-- Tampilkan Jumlah Tamu -->
+                        <td>${entry.institution}</td>
+                        <td>${entry.purpose.substring(0, 50)}${entry.purpose.length > 50 ? '...' : ''}</td>
+                        <td>${entry.meetWith}</td>
+                        <td>${statusLabel}</td>
+                        <td>
+                            <div class="action-btns">
+                                ${actionButton}
+                                ${commonButtons}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        // Load My Entries
+        // Load My Entries (Tidak perlu Jumlah Tamu di sini, disesuaikan dengan skema tabel yang ada)
         async function loadMyEntries() {
             const tbody = document.getElementById('myEntriesTable');
             const allData = await fetchEntriesFromServer();
@@ -1880,7 +1972,7 @@
                     <td>${entry.guestName}</td>
                     <td>${entry.institution}</td>
                     <td>${entry.purpose.substring(0, 50)}${entry.purpose.length > 50 ? '...' : ''}</td>
-                    <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : 'Approved'}</span></td>
+                    <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</span></td>
                     <td>
                         <div class="action-btns">
                             <button class="btn btn-primary btn-sm" onclick="viewEntry(${entry.id})">Lihat</button>
@@ -1892,7 +1984,7 @@
             `).join('');
         }
 
-        // Load Recent Entries (Dashboard)
+        // Load Recent Entries (Dashboard) (Tidak perlu Jumlah Tamu di sini, disesuaikan dengan skema tabel yang ada)
         async function loadRecentEntries() {
             const tbody = document.getElementById('recentEntriesTable');
             const allData = await fetchEntriesFromServer();
@@ -1903,15 +1995,18 @@
                 return;
             }
 
-            tbody.innerHTML = recent.map(entry => `
-                <tr>
-                    <td>${formatDate(entry.date)}</td>
-                    <td>${entry.guestName}</td>
-                    <td>${entry.institution}</td>
-                    <td>${entry.purpose.substring(0, 30)}${entry.purpose.length > 30 ? '...' : ''}</td>
-                    <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : 'Approved'}</span></td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = recent.map(entry => {
+                // Total entri di sini bisa dihitung dari guestCount jika diperlukan, tapi saat ini hanya menampilkan entri utama
+                return `
+                    <tr>
+                        <td>${formatDate(entry.date)}</td>
+                        <td>${entry.guestName}</td>
+                        <td>${entry.institution}</td>
+                        <td>${entry.purpose.substring(0, 30)}${entry.purpose.length > 30 ? '...' : ''}</td>
+                        <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</span></td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         // Update Dashboard
@@ -1919,12 +2014,15 @@
             const today = new Date().toDateString();
             const allData = await fetchEntriesFromServer();
            
-            document.getElementById('totalEntries').textContent = allData.length;
+            // Hitung total tamu (sum of guestCount) vs total entri (array length)
+            const totalGuestCount = allData.reduce((sum, entry) => sum + (entry.guestCount || 1), 0);
+           
+            document.getElementById('totalEntries').textContent = totalGuestCount; // Menampilkan total Guest Count
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('pendingEntries').textContent = 
                 allData.filter(e => e.status === 'pending').length;
             document.getElementById('todayEntries').textContent = 
-                allData.filter(e => new Date(e.date).toDateString() === today).length;
+                allData.filter(e => new Date(e.date).toDateString() === today).reduce((sum, entry) => sum + (entry.guestCount || 1), 0); // Total Guest Count Hari Ini
         }
 
         // View Entry
@@ -1933,15 +2031,18 @@
             const entry = allData.find(e => e.id === id);
             if (!entry) return;
 
+            const statusText = entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai');
+            
             const content = `
                 <div style="line-height: 1.8; color: var(--color-text-muted);">
                     <p style="color: var(--color-text);"><strong>Tanggal:</strong> ${formatDate(entry.date)}</p>
                     <p style="color: var(--color-text);"><strong>Nama Tamu:</strong> ${entry.guestName}</p>
-                    <p style="color: var(--color-text);"><strong>Email:</strong> ${entry.email}</p>
+                    <p style="color: var(--color-text);"><strong>Identitas:</strong> ${entry.email}</p>
                     <p style="color: var(--color-text);"><strong>Telepon:</strong> ${entry.phone}</p>
+                    <p style="color: var(--color-text);"><strong>Jumlah Tamu:</strong> ${entry.guestCount || 1}</p> <!-- Tampilkan Jumlah Tamu -->
                     <p style="color: var(--color-text);"><strong>Institusi:</strong> ${entry.institution}</p>
                     <p style="color: var(--color-text);"><strong>Bertemu Dengan:</strong> ${entry.meetWith}</p>
-                    <p style="color: var(--color-text);"><strong>Status:</strong> <span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : 'Approved'}</span></p>
+                    <p style="color: var(--color-text);"><strong>Status:</strong> <span class="badge badge-${entry.status}">${statusText}</span></p>
                     <p style="color: var(--color-text);"><strong>Dibuat Oleh:</strong> ${entry.userName}</p>
                     <div style="margin-top: 1rem; padding: 1rem; border: 1px solid rgba(0, 242, 255, 0.1); border-radius: 8px;">
                         <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">Keperluan Detail:</h4>
@@ -1967,6 +2068,7 @@
             document.getElementById('editGuestName').value = entry.guestName;
             document.getElementById('editGuestEmail').value = entry.email;
             document.getElementById('editGuestPhone').value = entry.phone;
+            document.getElementById('editGuestCount').value = entry.guestCount || 1; // Muat Jumlah Tamu
             document.getElementById('editGuestInstitution').value = entry.institution;
             document.getElementById('editGuestPurpose').value = entry.purpose;
             document.getElementById('editGuestMeetWith').value = entry.meetWith;
@@ -1983,11 +2085,18 @@
 
             const id = parseInt(document.getElementById('editEntryId').value);
             const index = guestbookEntries.findIndex(e => e.id === id);
+            const newGuestCount = parseInt(document.getElementById('editGuestCount').value);
+
+            if (newGuestCount < 1) {
+                showAlert('mainAlert', 'Jumlah Tamu harus minimal 1.', 'error');
+                return;
+            }
 
             if (index !== -1) {
                 guestbookEntries[index].guestName = document.getElementById('editGuestName').value;
                 guestbookEntries[index].email = document.getElementById('editGuestEmail').value;
                 guestbookEntries[index].phone = document.getElementById('editGuestPhone').value;
+                guestbookEntries[index].guestCount = newGuestCount; // Update Jumlah Tamu
                 guestbookEntries[index].institution = document.getElementById('editGuestInstitution').value;
                 guestbookEntries[index].purpose = document.getElementById('editGuestPurpose').value;
                 guestbookEntries[index].meetWith = document.getElementById('editGuestMeetWith').value;
@@ -1997,6 +2106,7 @@
                 await loadAllEntries();
                 await loadMyEntries();
                 await loadRecentEntries();
+                await updateDashboard();
 
                 closeEditModal();
                 showAlert('mainAlert', 'Entri berhasil diupdate!', 'success');
@@ -2021,7 +2131,7 @@
         function approveEntry(id) {
             const entry = guestbookEntries.find(e => e.id === id);
             if (entry) {
-                showConfirmationModal('Approve Entri', `Yakin ingin menyetujui entri tamu dari ${entry.guestName}?`, async () => {
+                showConfirmationModal('Approve Entri', `Yakin ingin menyetujui entri tamu dari ${entry.guestName}? Tamu akan berstatus 'Approved'.`, async () => {
                     entry.status = 'approved';
                     await updateEntryOnServer(guestbookEntries);
 
@@ -2031,6 +2141,22 @@
                 });
             }
         }
+        
+        // New function: Complete Entry
+        function completeEntry(id) {
+            const entry = guestbookEntries.find(e => e.id === id);
+            if (entry) {
+                showConfirmationModal('Tandai Selesai', `Yakin tamu ${entry.guestName} sudah selesai dengan keperluannya dan keluar dari lokasi? Status akan diubah menjadi 'Selesai'.`, async () => {
+                    entry.status = 'completed';
+                    await updateEntryOnServer(guestbookEntries);
+
+                    await loadAllEntries();
+                    await updateDashboard();
+                    showAlert('mainAlert', 'Entri berhasil ditandai Selesai!', 'info');
+                });
+            }
+        }
+
 
         // Users Management
         async function loadUsers() {
@@ -2184,16 +2310,18 @@
         // Export Functions
         async function exportToCSV() {
             const allData = await fetchEntriesFromServer();
-            const headers = ['Tanggal', 'Nama Tamu', 'Email', 'Telepon', 'Institusi', 'Keperluan', 'Bertemu Dengan', 'Status', 'Dibuat Oleh'];
+            // Tambahkan "Jumlah Tamu" ke header
+            const headers = ['Tanggal', 'Nama Tamu', 'Identitas', 'Jumlah Tamu', 'Telepon', 'Institusi', 'Keperluan', 'Bertemu Dengan', 'Status', 'Dibuat Oleh'];
             const rows = allData.map(entry => [
                 formatDate(entry.date),
                 entry.guestName,
-                entry.email,
+                entry.email, 
+                entry.guestCount || 1, // Sertakan Jumlah Tamu
                 entry.phone,
                 entry.institution,
                 entry.purpose.replace(/"/g, '""'),
                 entry.meetWith,
-                entry.status,
+                entry.status === 'completed' ? 'Selesai' : entry.status, // Perbarui status untuk CSV
                 entry.userName
             ]);
 
@@ -2234,9 +2362,10 @@
                     <td>${formatDate(entry.date)}</td>
                     <td>${entry.guestName}</td>
                     <td>${entry.email}</td>
+                    <td>${entry.guestCount || 1}</td> <!-- Sertakan Jumlah Tamu -->
                     <td>${entry.institution}</td>
                     <td>${entry.purpose.substring(0, 100)}...</td>
-                    <td>${entry.status === 'pending' ? 'Pending' : 'Approved'}</td>
+                    <td>${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</td>
                 </tr>
             `).join('');
 
@@ -2262,7 +2391,8 @@
                             <tr>
                                 <th>Tanggal</th>
                                 <th>Nama</th>
-                                <th>Email</th>
+                                <th>Identitas</th>
+                                <th>Jumlah Tamu</th> <!-- Tambah Header -->
                                 <th>Institusi</th>
                                 <th>Keperluan</th>
                                 <th>Status</th>
@@ -2289,7 +2419,14 @@
                                          entry.institution.toLowerCase().includes(searchLower) ||
                                          entry.purpose.toLowerCase().includes(searchLower);
                
-                const matchStatus = !statusFilter || entry.status === statusFilter;
+                let matchStatus = true;
+                if (statusFilter === 'completed') {
+                    matchStatus = entry.status === 'completed';
+                } else if (statusFilter === 'approved') {
+                    matchStatus = entry.status === 'approved';
+                } else if (statusFilter === 'pending') {
+                    matchStatus = entry.status === 'pending';
+                }
                
                 let matchDate = true;
                 if (dateFilter) {
@@ -2317,6 +2454,9 @@
             document.getElementById('filterDate')?.addEventListener('change', loadAllEntries);
             document.getElementById('searchUsers')?.addEventListener('input', loadUsers);
             document.getElementById('filterRole')?.addEventListener('change', loadUsers);
+            
+            // Initial call to ensure dashboard uses guestCount for totals
+            updateDashboard(); 
         });
 
         // Utility Functions
