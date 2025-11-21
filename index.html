@@ -18,6 +18,114 @@
             --color-warning: #ffaa00;
         }
 
+        /* LIGHT THEME VARIABLES */
+        body.light-theme {
+            --color-primary: #007bff; /* Bright Blue */
+            --color-secondary: #6c757d; /* Gray */
+            --color-accent: #dc3545; /* Red */
+            --color-bg-dark: #f0f4f8; /* Very Light Background */
+            --color-bg-card: #ffffff; /* White Card */
+            --color-text: #212529; /* Dark Text */
+            --color-text-muted: #6c757d; /* Gray Muted Text */
+        }
+        
+        /* Light Theme Adjustments */
+        body.light-theme {
+            background: linear-gradient(135deg, var(--color-bg-dark) 0%, #d8e2ed 100%);
+            color: var(--color-text);
+        }
+
+        body.light-theme .header {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom-color: rgba(0, 123, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .logo {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+        
+        body.light-theme .menu-toggle {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            box-shadow: 0 4px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        body.light-theme .menu-toggle span {
+            background: #ffffff;
+        }
+
+        body.light-theme .nav-menu {
+            background: rgba(255, 255, 255, 0.95);
+            border-left: 2px solid rgba(0, 123, 255, 0.3);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .nav-item {
+            background: rgba(240, 244, 248, 0.6);
+            border: 2px solid rgba(0, 123, 255, 0.3);
+            color: var(--color-text);
+        }
+
+        body.light-theme .nav-item:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
+        }
+
+        body.light-theme .nav-item::before {
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
+        }
+        
+        body.light-theme .card,
+        body.light-theme .modal-content {
+            background: var(--color-bg-card);
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .form-control {
+            background: #f8f9fa;
+            border: 2px solid #ced4da;
+            color: var(--color-text);
+        }
+
+        body.light-theme .form-control:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+            background: #ffffff;
+        }
+
+        body.light-theme .table thead {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 102, 255, 0.1));
+        }
+        
+        body.light-theme .table th {
+            color: var(--color-primary);
+            border-bottom: 2px solid rgba(0, 123, 255, 0.3);
+        }
+
+        body.light-theme .table td {
+            color: var(--color-text);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-theme .table tbody tr:hover {
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        body.light-theme .stat-card {
+            background: rgba(0, 123, 255, 0.05);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+        }
+
+        body.light-theme .stat-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 123, 255, 0.2);
+        }
+
+
         * {
             margin: 0;
             padding: 0;
@@ -30,6 +138,7 @@
             color: var(--color-text);
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
         /* Animated Background */
@@ -43,7 +152,7 @@
             overflow: hidden;
             pointer-events: none;
         }
-
+        
         .bg-circle {
             position: absolute;
             background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
@@ -75,6 +184,11 @@
             left: 50%;
             animation-delay: 14s;
             background: radial-gradient(circle, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
+        }
+        
+        /* Light mode turns off the heavy background animation circles */
+        body.light-theme .bg-circle {
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.05) 0%, transparent 70%);
         }
 
         @keyframes float {
@@ -163,6 +277,10 @@
             border-radius: 2px;
             transition: all 0.3s ease;
         }
+        
+        body.light-theme .menu-toggle span {
+            background: var(--color-bg-dark); /* Ensure dark color for lines in light mode toggle */
+        }
 
         .menu-toggle.active span:nth-child(1) {
             transform: rotate(45deg) translate(7px, 7px);
@@ -241,7 +359,7 @@
             border-color: var(--color-primary);
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
         }
-        
+           
         /* Logout Button Style within Nav */
         .nav-item.nav-logout {
             margin-top: auto;
@@ -288,7 +406,7 @@
             opacity: 1;
             visibility: visible;
         }
-        
+           
         /* Kontainer untuk efek blur saat menu aktif */
         #mainContentWrapper {
             transition: filter 0.4s ease;
@@ -299,7 +417,7 @@
             filter: blur(8px);
             pointer-events: none;
         }
-        
+           
         /* Perbaikan: Atur z-index untuk semua tombol/menu toggle */
         .menu-toggle {
             z-index: 1011;
@@ -422,15 +540,29 @@
             color: var(--color-text);
             border: 2px solid rgba(136, 146, 176, 0.3);
         }
+        
+        body.light-theme .btn-secondary {
+            color: var(--color-text);
+            border: 2px solid #ced4da;
+            background: #e9ecef;
+        }
 
         .btn-secondary:hover {
             background: rgba(136, 146, 176, 0.3);
             border-color: rgba(136, 146, 176, 0.5);
         }
+        
+        body.light-theme .btn-secondary:hover {
+            background: #f8f9fa;
+        }
 
         .btn-danger {
             background: linear-gradient(135deg, var(--color-error), #cc0044);
             color: var(--color-text);
+        }
+        
+        body.light-theme .btn-danger {
+            color: #ffffff;
         }
 
         .btn-success {
@@ -443,6 +575,10 @@
             overflow-x: auto;
             border-radius: 12px;
             background: rgba(10, 14, 39, 0.4);
+        }
+        
+        body.light-theme .table-container {
+            background: rgba(0, 123, 255, 0.05);
         }
 
         .table {
@@ -591,6 +727,11 @@
             box-shadow: 0 20px 60px rgba(0, 242, 255, 0.3);
             animation: modalSlideIn 0.3s ease;
         }
+        
+        body.light-theme .modal-content {
+            border: 2px solid rgba(0, 123, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
 
         @keyframes modalSlideIn {
             from {
@@ -628,6 +769,10 @@
             justify-content: center;
             border-radius: 50%;
             transition: all 0.3s ease;
+        }
+        
+        body.light-theme .close-modal {
+            color: var(--color-text);
         }
 
         .close-modal:hover {
@@ -709,11 +854,11 @@
                 width: 45px;
                 height: 45px;
             }
-            
+           
             .user-info {
                 display: none;
             }
-            
+           
             .logo {
                 font-size: 1.5rem;
             }
@@ -790,6 +935,103 @@
         .login-subtitle {
             color: var(--color-text-muted);
         }
+        
+        /* --- MODE TOGGLE SWITCH CSS --- */
+        .theme-switch-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: default;
+            margin-bottom: 1rem;
+        }
+        
+        /* Remove hover effects for the container itself */
+        .theme-switch-container:hover {
+            box-shadow: none;
+            border-color: rgba(0, 0, 0, 0.1);
+            transform: none;
+            background: rgba(10, 14, 39, 0.6);
+        }
+        
+        body.light-theme .theme-switch-container:hover {
+             background: rgba(240, 244, 248, 0.6);
+        }
+        
+        .theme-switch-container .nav-text {
+             flex: none;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Dark Mode colors (Default) */
+        .slider {
+            background-color: #555; /* Dark grey when unchecked */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23555' d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8ZM12 6a6 6 0 0 0 0 12 6 6 0 0 0 0-12Z'/%3E%3C/svg%3E"); /* Moon icon */
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        input:checked + .slider {
+            background-color: var(--color-primary); /* Primary color when checked (Light Mode) */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--color-primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F0B429' d='M12 2.25A9.75 9.75 0 0 0 2.25 12 9.75 9.75 0 0 0 12 21.75c3.24 0 6.13-1.63 7.84-4.13A.75.75 0 0 0 19 17v-2.14a8.91 8.91 0 0 1-7 .42 8.27 8.27 0 0 1-6.1-2.95 8.1 8.1 0 0 1-1.35-8.8 9.77 9.77 0 0 0 8.44-1.78Z'/%3E%3C/svg%3E"); /* Sun icon */
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* END MODE TOGGLE SWITCH CSS */
     </style>
 </head>
 <body>
@@ -878,20 +1120,20 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
-    
+   
     <div id="mainContentWrapper">
         <div id="mainApp" style="display: none;">
             <header class="header">
                 <div class="container">
                     <div class="header-content">
                         <div class="logo">📖 Buku Tamu Online</div>
-                        
+                       
                         <button class="menu-toggle" onclick="toggleMenu()">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
-                        
+                       
                     </div>
                 </div>
             </header>
@@ -985,7 +1227,7 @@
                 <div id="allEntries" class="section">
                     <div class="card">
                         <h2 class="card-title">Semua Entri Buku Tamu</h2>
-                        
+                       
                         <div class="export-btns">
                             <button class="btn btn-success btn-sm" onclick="exportToCSV()">📊 Export CSV</button>
                             <button class="btn btn-success btn-sm" onclick="exportToPDF()">📄 Export PDF</button>
@@ -1062,7 +1304,7 @@
                 <div id="users" class="section">
                     <div class="card">
                         <h2 class="card-title">Kelola User</h2>
-                        
+                       
                         <div class="search-filter">
                             <div class="search-box">
                                 <input type="text" class="form-control" id="searchUsers" placeholder="🔍 Cari nama atau email...">
@@ -1146,7 +1388,7 @@
             </div>
         </div>
     </div>
-    
+   
     <nav class="nav-menu" id="navMenu">
         <div style="margin-bottom: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(0, 242, 255, 0.2);">
             <div class="user-info" style="gap: 0.75rem; justify-content: flex-start; display: flex !important;">
@@ -1157,6 +1399,16 @@
                 </div>
             </div>
         </div>
+        
+        <!-- MODE TOGGLE SWITCH -->
+        <div class="nav-item theme-switch-container">
+            <span class="nav-text" id="themeLabel">Mode Gelap</span>
+            <label class="switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <!-- END MODE TOGGLE -->
 
         <button class="nav-item active" onclick="navigateTo('dashboard', this)">
             <span class="nav-icon">📊</span>
@@ -1182,7 +1434,7 @@
             <span class="nav-icon">⚙️</span>
             <span class="nav-text">Pengaturan</span>
         </button>
-        
+       
         <button class="nav-item nav-logout" onclick="logout()">
             <span class="nav-icon">🚪</span>
             <span class="nav-text">Logout</span>
@@ -1287,6 +1539,35 @@
             closeConfirmationModal();
         });
 
+        // --- THEME TOGGLE LOGIC ---
+        function toggleTheme() {
+            const isChecked = document.getElementById('themeToggle').checked;
+            const body = document.body;
+            const themeLabel = document.getElementById('themeLabel');
+
+            if (isChecked) {
+                // Light Mode
+                body.classList.add('light-theme');
+                localStorage.setItem('themePreference', 'light');
+                themeLabel.textContent = 'Mode Terang';
+            } else {
+                // Dark Mode
+                body.classList.remove('light-theme');
+                localStorage.setItem('themePreference', 'dark');
+                themeLabel.textContent = 'Mode Gelap';
+            }
+        }
+        
+        // Listener for the toggle switch
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleEl = document.getElementById('themeToggle');
+            if(themeToggleEl) {
+                themeToggleEl.addEventListener('change', toggleTheme);
+            }
+        });
+        
+        // --- END THEME TOGGLE LOGIC ---
+
         // Initialize and check session (uses localStorage for session only, not data)
         document.addEventListener('DOMContentLoaded', function() {
             // Memuat data entri dan user dari localStorage untuk DEMO PERSISTENSI ANTARA REFRESH
@@ -1302,6 +1583,19 @@
                  nextUserId = Math.max(...users.map(u => u.id), 0) + 1;
             }
 
+            // Theme initialization must happen before checking session to apply correct theme to login page
+            const savedTheme = localStorage.getItem('themePreference');
+            if (savedTheme === 'light') {
+                document.getElementById('themeToggle').checked = true;
+                document.body.classList.add('light-theme');
+                document.getElementById('themeLabel').textContent = 'Mode Terang';
+            } else {
+                 // Default is dark mode, ensure checkbox is unchecked and class is removed if localStorage is corrupted
+                document.getElementById('themeToggle').checked = false;
+                document.body.classList.remove('light-theme');
+                document.getElementById('themeLabel').textContent = 'Mode Gelap';
+            }
+            
             // Check if user is logged in (session only)
             const savedSession = localStorage.getItem('currentUserSession');
             if (savedSession) {
@@ -1337,7 +1631,7 @@
                 }, 10);
             });
         }
-        
+       
         // Simulates updating users array
         async function updateUsersOnServer() {
             return new Promise(resolve => {
@@ -1361,7 +1655,7 @@
             if (user && user.status === 'active') {
                 currentUser = user;
                 localStorage.setItem('currentUserSession', JSON.stringify({ id: user.id, role: user.role }));
-                
+               
                 showAlert('loginAlert', 'Login berhasil! Mengalihkan...', 'success');
                 setTimeout(() => {
                     showMainApp();
@@ -1390,7 +1684,7 @@
                 showAlert('registerAlert', 'Email sudah terdaftar!', 'error');
                 return;
             }
-            
+           
             const newUser = {
                 id: nextUserId++,
                 name: document.getElementById('regName').value,
@@ -1405,7 +1699,7 @@
             users.push(newUser);
             await updateUsersOnServer();
             showAlert('registerAlert', 'Registrasi berhasil! Silakan login.', 'success');
-            
+           
             setTimeout(() => {
                 closeRegisterModal();
             }, 1000);
@@ -1444,8 +1738,8 @@
             await loadAllEntries();
             await loadMyEntries();
             await loadUsers();
-            
-            navigateTo('dashboard', document.querySelector('#navMenu .nav-item:nth-child(2)'));
+           
+            navigateTo('dashboard', document.querySelector('#navMenu .nav-item:nth-child(3)')); // Adjusted index due to new element
         }
 
         // Menu Toggle
@@ -1453,11 +1747,11 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.getElementById('navMenu');
             const overlay = document.getElementById('menuOverlay');
-            
+           
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
             overlay.classList.toggle('active');
-            
+           
             document.body.classList.toggle('content-blurred');
         }
 
@@ -1466,11 +1760,11 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.getElementById('navMenu');
             const overlay = document.getElementById('menuOverlay');
-            
+           
             menuToggle.classList.remove('active');
             navMenu.classList.remove('active');
             overlay.classList.remove('active');
-            
+           
             document.body.classList.remove('content-blurred');
         }
 
@@ -1478,14 +1772,17 @@
         function navigateTo(sectionId, targetElement) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-            
+           
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
-            
+           
             if (targetElement) {
-                targetElement.classList.add('active');
+                // Ensure the active state is only set for non-toggle buttons
+                if (!targetElement.classList.contains('theme-switch-container')) {
+                     targetElement.classList.add('active');
+                }
             } else {
                 const defaultActive = document.querySelector(`.nav-menu button[onclick*="'${sectionId}'"]`);
                 if (defaultActive) defaultActive.classList.add('active');
@@ -1526,12 +1823,12 @@
             await updateDashboard();
             await loadRecentEntries();
         });
-        
+       
         // Load All Entries
         async function loadAllEntries() {
             const tbody = document.getElementById('entriesTable');
             const allData = await fetchEntriesFromServer();
-            
+           
             const searchTerm = document.getElementById('searchEntries').value.toLowerCase();
             const statusFilter = document.getElementById('filterStatus').value;
             const dateFilter = document.getElementById('filterDate').value;
@@ -1557,7 +1854,7 @@
                             <button class="btn btn-primary btn-sm" onclick="viewEntry(${entry.id})">Lihat</button>
                             ${currentUser.role === 'admin' || entry.userId === currentUser.id ? 
                                 `<button class="btn btn-secondary btn-sm" onclick="editEntry(${entry.id})">Edit</button>
-                                 <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
+                                   <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
                             ${currentUser.role === 'admin' && entry.status === 'pending' ? 
                                 `<button class="btn btn-success btn-sm" onclick="approveEntry(${entry.id})">Approve</button>` : ''}
                         </div>
@@ -1621,7 +1918,7 @@
         async function updateDashboard() {
             const today = new Date().toDateString();
             const allData = await fetchEntriesFromServer();
-            
+           
             document.getElementById('totalEntries').textContent = allData.length;
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('pendingEntries').textContent = 
@@ -1696,7 +1993,7 @@
                 guestbookEntries[index].meetWith = document.getElementById('editGuestMeetWith').value;
 
                 await updateEntryOnServer(guestbookEntries);
-                
+               
                 await loadAllEntries();
                 await loadMyEntries();
                 await loadRecentEntries();
@@ -1745,7 +2042,7 @@
 
             let filtered = users.filter(user => {
                 const matchSearch = user.name.toLowerCase().includes(searchTerm) ||
-                                    user.email.toLowerCase().includes(searchTerm);
+                                         user.email.toLowerCase().includes(searchTerm);
                 const matchRole = !roleFilter || user.role === roleFilter;
                 return matchSearch && matchRole;
             });
@@ -1779,7 +2076,7 @@
             if (user) {
                 const newStatus = user.status === 'active' ? 'inactive' : 'active';
                 const action = user.status === 'active' ? 'menonaktifkan' : 'mengaktifkan';
-                
+               
                 showConfirmationModal('Ubah Status User', `Yakin ingin ${action} akun ${user.name}?`, async () => {
                     user.status = newStatus;
                     await updateUsersOnServer();
@@ -1989,11 +2286,11 @@
 
             return data.filter(entry => {
                 const matchSearch = entry.guestName.toLowerCase().includes(searchLower) ||
-                                    entry.institution.toLowerCase().includes(searchLower) ||
-                                    entry.purpose.toLowerCase().includes(searchLower);
-                
+                                         entry.institution.toLowerCase().includes(searchLower) ||
+                                         entry.purpose.toLowerCase().includes(searchLower);
+               
                 const matchStatus = !statusFilter || entry.status === statusFilter;
-                
+               
                 let matchDate = true;
                 if (dateFilter) {
                     const entryDate = new Date(entry.date);
@@ -2005,7 +2302,7 @@
                         matchDate = entryDate >= weekAgo;
                     } else if (dateFilter === 'month') {
                         matchDate = entryDate.getMonth() === now.getMonth() && 
-                                    entryDate.getFullYear() === now.getFullYear();
+                                         entryDate.getFullYear() === now.getFullYear();
                     }
                 }
 
@@ -2047,4 +2344,5 @@
 
     </script>
 </body>
+
 </html>
