@@ -1786,7 +1786,7 @@
                 document.getElementById('loginForm').reset();
                 closeMenu();
                 // Ensure dashboard is the default section if they log back in
-                navigateTo('dashboard', document.querySelector('#navMenu .nav-item:nth-child(3)'));
+                navigateTo('dashboard', document.querySelector('#navMenu button[onclick*="\'dashboard\'"]'));
             });
         }
 
@@ -1884,8 +1884,8 @@
                 purpose: document.getElementById('guestPurpose').value,
                 meetWith: document.getElementById('guestMeetWith').value,
                 date: new Date().toISOString(),
-                // Admin langsung approved, User statusnya pending
-                status: currentUser.role === 'admin' ? 'approved' : 'pending' 
+                // PERUBAHAN: Semua entri baru disetel ke status 'pending' secara default
+                status: 'pending' 
             };
 
             // Validasi sederhana untuk Jumlah Tamu
@@ -1897,7 +1897,7 @@
             guestbookEntries.unshift(entry);
             await updateEntryOnServer(guestbookEntries);
 
-            showAlert('mainAlert', 'Entri berhasil disimpan!' + (entry.status === 'pending' ? ' Menunggu approval Admin.' : ''), 'success');
+            showAlert('mainAlert', 'Entri berhasil disimpan! Menunggu approval Admin.', 'success');
             this.reset();
             document.getElementById('guestCount').value = 1;
 
@@ -1950,6 +1950,10 @@
                          <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
                 `;
 
+                // Gabungkan tombol aksi yang tersedia
+                const finalActionButtons = actionButton ? `${actionButton} ${commonButtons}` : commonButtons;
+
+
                 return `
                     <tr>
                         <td>${formatDate(entry.date)}</td>
@@ -1962,8 +1966,7 @@
                         <td>${statusLabel}</td>
                         <td>
                             <div class="action-btns">
-                                ${actionButton}
-                                ${commonButtons}
+                                ${finalActionButtons}
                             </div>
                         </td>
                     </tr>
