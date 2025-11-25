@@ -631,7 +631,7 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            white-space: nowrap; /* Prevent badge text from wrapping */
+            white-space: nowrap;
         }
 
         .badge-admin {
@@ -844,17 +844,18 @@
             color: var(--color-primary);
         }
 
-        /* Action Buttons */
+        /* Action Buttons - Peningkatan untuk responsivitas */
         .action-btns {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap; /* Ensure buttons wrap on small screens */
+            flex-wrap: wrap; 
         }
 
         .btn-sm {
             padding: 0.4rem 0.8rem;
             font-size: 0.85rem;
-            flex-shrink: 0; /* Prevent buttons from shrinking too much */
+            flex-shrink: 0; 
+            white-space: nowrap; /* Penting agar teks tombol tidak pecah */
         }
 
         /* Export Buttons */
@@ -907,7 +908,10 @@
             }
 
             .action-btns {
-                flex-direction: row; /* Keep action buttons in row, but wrap */
+                flex-direction: row; 
+                justify-content: flex-start;
+                /* Batasi lebar kolom Aksi untuk memicu wrap lebih baik */
+                min-width: 150px;
             }
         }
 
@@ -1046,6 +1050,9 @@
         input:checked + .slider:before {
             transform: translateX(26px);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F0B429' d='M12 2.25A9.75 9.75 0 0 0 2.25 12 9.75 9.75 0 0 0 12 21.75c3.24 0 6.13-1.63 7.84-4.13A.75.75 0 0 0 19 17v-2.14a8.91 8.91 0 0 1-7 .42 8.27 8.27 0 0 1-6.1-2.95 8.1 8.1 0 0 1-1.35-8.8 9.77 9.77 0 0 0 8.44-1.78Z'/%3E%3C/svg%3E");
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         /* Rounded sliders */
@@ -1241,7 +1248,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Keperluan</label>
-                                <textarea class="form-control" id="guestPurpose" required></textarea>
+                            <textarea class="form-control" id="guestPurpose" required></textarea>
                             </div>
 
                             <div class="form-group">
@@ -1561,16 +1568,24 @@
             const actionBtn = document.getElementById('confirmActionBtn');
 
             let btnClass = 'btn-primary';
-            if (title.includes('Hapus') || title.includes('Logout') || title.includes('Nonaktifkan')) {
+            if (title.includes('Hapus') || title.includes('Logout') || title.includes('Nonaktifkan') || title.includes('Turunkan')) {
                 btnClass = 'btn-danger';
-            } else if (title.includes('Approve') || title.includes('Aktifkan')) {
+            } else if (title.includes('Approve') || title.includes('Aktifkan') || title.includes('Promosikan')) {
                 btnClass = 'btn-success';
             } else if (title.includes('Selesai')) {
                 btnClass = 'btn-info';
             }
 
             actionBtn.className = 'btn ' + btnClass;
-            actionBtn.textContent = title.includes('Hapus') ? 'Ya, Hapus' : (title.includes('Nonaktifkan') ? 'Ya, Nonaktifkan' : (title.includes('Selesai') ? 'Ya, Selesai' : 'Ya, Lanjutkan'));
+            // Penyesuaian teks tombol konfirmasi
+            let actionText = 'Ya, Lanjutkan';
+            if (title.includes('Hapus')) actionText = 'Ya, Hapus';
+            else if (title.includes('Nonaktifkan')) actionText = 'Ya, Nonaktifkan';
+            else if (title.includes('Aktifkan')) actionText = 'Ya, Aktifkan';
+            else if (title.includes('Selesai')) actionText = 'Ya, Selesai';
+            else if (title.includes('Approve')) actionText = 'Ya, Approve';
+            actionBtn.textContent = actionText;
+
             document.getElementById('confirmationModal').classList.add('active');
         }
 
@@ -1869,7 +1884,8 @@
                 purpose: document.getElementById('guestPurpose').value,
                 meetWith: document.getElementById('guestMeetWith').value,
                 date: new Date().toISOString(),
-                status: currentUser.role === 'admin' ? 'approved' : 'pending'
+                // Admin langsung approved, User statusnya pending
+                status: currentUser.role === 'admin' ? 'approved' : 'pending' 
             };
 
             // Validasi sederhana untuk Jumlah Tamu
@@ -1911,7 +1927,7 @@
 
                 if (entry.status === 'pending') {
                     statusLabel = `<span class="badge badge-pending">Pending</span>`;
-                    // **[FUNGSI SESUAI PERMINTAAN USER]** Tampilkan tombol APPROVE hanya untuk Admin
+                    // Tampilkan tombol APPROVE hanya untuk Admin
                     if (currentUser.role === 'admin') {
                         actionButton = `<button class="btn btn-success btn-sm" onclick="approveEntry(${entry.id})">Approve</button>`;
                     }
@@ -1919,7 +1935,7 @@
                     statusLabel = `<span class="badge badge-approved">Approved</span>`;
                     // Tampilkan tombol TANDAI SELESAI hanya untuk Admin pada entri yang sudah Approved
                     if (currentUser.role === 'admin') {
-                        actionButton = `<button class="btn btn-info btn-sm" onclick="completeEntry(${entry.id})">Tandai Selesai</button>`;
+                        actionButton = `<button class="btn btn-info btn-sm" onclick="completeEntry(${entry.id})">Selesai</button>`;
                     }
                 } else if (entry.status === 'completed') {
                     statusLabel = `<span class="badge badge-completed">Selesai</span>`;
@@ -2063,6 +2079,12 @@
             const entry = guestbookEntries.find(e => e.id === id);
             if (!entry) return;
 
+            // Hanya Admin atau pembuat entri yang bisa mengedit
+            if (currentUser.role !== 'admin' && entry.userId !== currentUser.id) {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk mengedit entri ini.', 'error');
+                return;
+            }
+
             document.getElementById('editEntryId').value = entry.id;
             document.getElementById('editGuestName').value = entry.guestName;
             document.getElementById('editGuestEmail').value = entry.email;
@@ -2114,6 +2136,15 @@
 
         // Delete Entry
         function deleteEntry(id) {
+            const entry = guestbookEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            // Hanya Admin atau pembuat entri yang bisa menghapus
+            if (currentUser.role !== 'admin' && entry.userId !== currentUser.id) {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk menghapus entri ini.', 'error');
+                return;
+            }
+            
             showConfirmationModal('Hapus Entri', 'Anda yakin ingin menghapus entri buku tamu ini?', async () => {
                 guestbookEntries = guestbookEntries.filter(e => e.id !== id);
                 await updateEntryOnServer(guestbookEntries);
@@ -2126,8 +2157,13 @@
             });
         }
 
-        // Approve Entry (Digunakan oleh tombol yang diminta user)
+        // Approve Entry (Admin Action)
         function approveEntry(id) {
+            if (currentUser.role !== 'admin') {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk melakukan aksi ini.', 'error');
+                return;
+            }
+
             const entry = guestbookEntries.find(e => e.id === id);
             if (entry) {
                 showConfirmationModal('Approve Entri', `Yakin ingin menyetujui entri tamu dari ${entry.guestName}? Tamu akan berstatus 'Approved'.`, async () => {
@@ -2141,8 +2177,13 @@
             }
         }
 
-        // Complete Entry (Digunakan untuk Admin menandai tamu keluar)
+        // Complete Entry (Admin Action)
         function completeEntry(id) {
+            if (currentUser.role !== 'admin') {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk melakukan aksi ini.', 'error');
+                return;
+            }
+            
             const entry = guestbookEntries.find(e => e.id === id);
             if (entry) {
                 showConfirmationModal('Tandai Selesai', `Yakin tamu ${entry.guestName} sudah selesai dengan keperluannya dan keluar dari lokasi? Status akan diubah menjadi 'Selesai'.`, async () => {
@@ -2197,6 +2238,10 @@
         }
 
         function toggleUserStatus(id) {
+            if (currentUser.role !== 'admin') {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk melakukan aksi ini.', 'error');
+                return;
+            }
             const user = users.find(u => u.id === id);
             if (user) {
                 const newStatus = user.status === 'active' ? 'inactive' : 'active';
@@ -2212,6 +2257,10 @@
         }
 
         function promoteToAdmin(id) {
+            if (currentUser.role !== 'admin') {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk melakukan aksi ini.', 'error');
+                return;
+            }
             const user = users.find(u => u.id === id);
             if (user) {
                 showConfirmationModal('Promosikan User', `Yakin ingin menjadikan user ${user.name} sebagai admin? User akan memiliki akses penuh.`, async () => {
@@ -2224,6 +2273,10 @@
         }
 
         function demoteToUser(id) {
+            if (currentUser.role !== 'admin') {
+                showAlert('mainAlert', 'Anda tidak memiliki izin untuk melakukan aksi ini.', 'error');
+                return;
+            }
             const user = users.find(u => u.id === id);
             if (user) {
                 showConfirmationModal('Turunkan Role', `Yakin ingin menurunkan role admin ${user.name} menjadi user biasa?`, async () => {
@@ -2534,6 +2587,4 @@
         }
     </script>
 </body>
-
-
 </html>
