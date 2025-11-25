@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Buku Tamu Online</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --color-primary: #00f2ff;
@@ -16,21 +17,21 @@
             --color-success: #00ff88;
             --color-error: #ff3366;
             --color-warning: #ffaa00;
-            --color-info: #00aaff; /* New color for completed/info */
+            --color-info: #00aaff;
         }
 
         /* LIGHT THEME VARIABLES */
         body.light-theme {
-            --color-primary: #007bff; /* Bright Blue */
-            --color-secondary: #6c757d; /* Gray */
-            --color-accent: #dc3545; /* Red */
-            --color-bg-dark: #f0f4f8; /* Very Light Background */
-            --color-bg-card: #ffffff; /* White Card */
-            --color-text: #212529; /* Dark Text */
-            --color-text-muted: #6c757d; /* Gray Muted Text */
-            --color-info: #17a2b8; /* Light theme info color */
+            --color-primary: #007bff;
+            --color-secondary: #6c757d;
+            --color-accent: #dc3545;
+            --color-bg-dark: #f0f4f8;
+            --color-bg-card: #ffffff;
+            --color-text: #212529;
+            --color-text-muted: #6c757d;
+            --color-info: #17a2b8;
         }
-        
+
         /* Light Theme Adjustments */
         body.light-theme {
             background: linear-gradient(135deg, var(--color-bg-dark) 0%, #d8e2ed 100%);
@@ -50,7 +51,7 @@
             background-clip: text;
             text-shadow: none;
         }
-        
+
         body.light-theme .menu-toggle {
             background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
             box-shadow: 0 4px 20px rgba(0, 123, 255, 0.4);
@@ -80,7 +81,7 @@
         body.light-theme .nav-item::before {
             background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
         }
-        
+
         body.light-theme .card,
         body.light-theme .modal-content {
             background: var(--color-bg-card);
@@ -103,7 +104,7 @@
         body.light-theme .table thead {
             background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 102, 255, 0.1));
         }
-        
+
         body.light-theme .table th {
             color: var(--color-primary);
             border-bottom: 2px solid rgba(0, 123, 255, 0.3);
@@ -154,7 +155,7 @@
             overflow: hidden;
             pointer-events: none;
         }
-        
+
         .bg-circle {
             position: absolute;
             background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, transparent 70%);
@@ -187,7 +188,7 @@
             animation-delay: 14s;
             background: radial-gradient(circle, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
         }
-        
+
         /* Light mode turns off the heavy background animation circles */
         body.light-theme .bg-circle {
             background: radial-gradient(circle, rgba(0, 123, 255, 0.05) 0%, transparent 70%);
@@ -279,9 +280,9 @@
             border-radius: 2px;
             transition: all 0.3s ease;
         }
-        
+
         body.light-theme .menu-toggle span {
-            background: var(--color-bg-dark); /* Ensure dark color for lines in light mode toggle */
+            background: var(--color-bg-dark);
         }
 
         .menu-toggle.active span:nth-child(1) {
@@ -329,7 +330,6 @@
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
             position: relative;
             overflow: hidden;
             color: var(--color-text);
@@ -361,7 +361,7 @@
             border-color: var(--color-primary);
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
         }
-           
+
         /* Logout Button Style within Nav */
         .nav-item.nav-logout {
             margin-top: auto;
@@ -408,7 +408,7 @@
             opacity: 1;
             visibility: visible;
         }
-           
+
         /* Kontainer untuk efek blur saat menu aktif */
         #mainContentWrapper {
             transition: filter 0.4s ease;
@@ -419,7 +419,7 @@
             filter: blur(8px);
             pointer-events: none;
         }
-           
+
         /* Perbaikan: Atur z-index untuk semua tombol/menu toggle */
         .menu-toggle {
             z-index: 1011;
@@ -542,7 +542,7 @@
             color: var(--color-text);
             border: 2px solid rgba(136, 146, 176, 0.3);
         }
-        
+
         body.light-theme .btn-secondary {
             color: var(--color-text);
             border: 2px solid #ced4da;
@@ -553,7 +553,7 @@
             background: rgba(136, 146, 176, 0.3);
             border-color: rgba(136, 146, 176, 0.5);
         }
-        
+
         body.light-theme .btn-secondary:hover {
             background: #f8f9fa;
         }
@@ -562,7 +562,7 @@
             background: linear-gradient(135deg, var(--color-error), #cc0044);
             color: var(--color-text);
         }
-        
+
         body.light-theme .btn-danger {
             color: #ffffff;
         }
@@ -571,13 +571,13 @@
             background: linear-gradient(135deg, var(--color-success), #00cc66);
             color: var(--color-bg-dark);
         }
-        
+
         /* New button style for marking as complete */
         .btn-info {
             background: linear-gradient(135deg, var(--color-info), #007799);
             color: var(--color-bg-dark);
         }
-        
+
         body.light-theme .btn-info {
             color: #ffffff;
         }
@@ -588,7 +588,7 @@
             border-radius: 12px;
             background: rgba(10, 14, 39, 0.4);
         }
-        
+
         body.light-theme .table-container {
             background: rgba(0, 123, 255, 0.05);
         }
@@ -631,6 +631,7 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
+            white-space: nowrap; /* Prevent badge text from wrapping */
         }
 
         .badge-admin {
@@ -654,7 +655,7 @@
             color: var(--color-success);
             border: 1px solid var(--color-success);
         }
-        
+
         /* New badge style for completed status */
         .badge-completed {
             background: rgba(0, 170, 255, 0.2);
@@ -746,7 +747,7 @@
             box-shadow: 0 20px 60px rgba(0, 242, 255, 0.3);
             animation: modalSlideIn 0.3s ease;
         }
-        
+
         body.light-theme .modal-content {
             border: 2px solid rgba(0, 123, 255, 0.3);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -789,7 +790,7 @@
             border-radius: 50%;
             transition: all 0.3s ease;
         }
-        
+
         body.light-theme .close-modal {
             color: var(--color-text);
         }
@@ -847,11 +848,13 @@
         .action-btns {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap; /* Ensure buttons wrap on small screens */
         }
 
         .btn-sm {
             padding: 0.4rem 0.8rem;
             font-size: 0.85rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking too much */
         }
 
         /* Export Buttons */
@@ -873,11 +876,11 @@
                 width: 45px;
                 height: 45px;
             }
-           
+
             .user-info {
                 display: none;
             }
-           
+
             .logo {
                 font-size: 1.5rem;
             }
@@ -899,8 +902,12 @@
                 font-size: 0.9rem;
             }
 
+            .table th, .table td {
+                padding: 0.8rem;
+            }
+
             .action-btns {
-                flex-direction: column;
+                flex-direction: row; /* Keep action buttons in row, but wrap */
             }
         }
 
@@ -954,7 +961,7 @@
         .login-subtitle {
             color: var(--color-text-muted);
         }
-        
+
         /* --- MODE TOGGLE SWITCH CSS --- */
         .theme-switch-container {
             display: flex;
@@ -963,7 +970,7 @@
             cursor: default;
             margin-bottom: 1rem;
         }
-        
+
         /* Remove hover effects for the container itself */
         .theme-switch-container:hover {
             box-shadow: none;
@@ -971,13 +978,13 @@
             transform: none;
             background: rgba(10, 14, 39, 0.6);
         }
-        
+
         body.light-theme .theme-switch-container:hover {
-             background: rgba(240, 244, 248, 0.6);
+            background: rgba(240, 244, 248, 0.6);
         }
-        
+
         .theme-switch-container .nav-text {
-             flex: none;
+            flex: none;
         }
 
         /* The switch - the box around the slider */
@@ -1007,10 +1014,10 @@
             transition: .4s;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        
+
         /* Dark Mode colors (Default) */
         .slider {
-            background-color: #555; /* Dark grey when unchecked */
+            background-color: #555;
         }
 
         .slider:before {
@@ -1022,14 +1029,14 @@
             bottom: 4px;
             background-color: white;
             transition: .4s;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23555' d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8ZM12 6a6 6 0 0 0 0 12 6 6 0 0 0 0-12Z'/%3E%3C/svg%3E"); /* Moon icon */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23555' d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8ZM12 6a6 6 0 0 0 0 12 6 6 0 0 0 0-12Z'/%3E%3C/svg%3E");
             background-size: 70%;
             background-repeat: no-repeat;
             background-position: center;
         }
 
         input:checked + .slider {
-            background-color: var(--color-primary); /* Primary color when checked (Light Mode) */
+            background-color: var(--color-primary);
         }
 
         input:focus + .slider {
@@ -1038,7 +1045,7 @@
 
         input:checked + .slider:before {
             transform: translateX(26px);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F0B429' d='M12 2.25A9.75 9.75 0 0 0 2.25 12 9.75 9.75 0 0 0 12 21.75c3.24 0 6.13-1.63 7.84-4.13A.75.75 0 0 0 19 17v-2.14a8.91 8.91 0 0 1-7 .42 8.27 8.27 0 0 1-6.1-2.95 8.1 8.1 0 0 1-1.35-8.8 9.77 9.77 0 0 0 8.44-1.78Z'/%3E%3C/svg%3E"); /* Sun icon */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23F0B429' d='M12 2.25A9.75 9.75 0 0 0 2.25 12 9.75 9.75 0 0 0 12 21.75c3.24 0 6.13-1.63 7.84-4.13A.75.75 0 0 0 19 17v-2.14a8.91 8.91 0 0 1-7 .42 8.27 8.27 0 0 1-6.1-2.95 8.1 8.1 0 0 1-1.35-8.8 9.77 9.77 0 0 0 8.44-1.78Z'/%3E%3C/svg%3E");
         }
 
         /* Rounded sliders */
@@ -1072,7 +1079,6 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label class="form-label">Identitas</label>
-                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
                     <input type="text" class="form-control" id="loginEmail" required placeholder="admin@buku.com / user@buku.com">
                 </div>
 
@@ -1114,7 +1120,6 @@
 
                 <div class="form-group">
                     <label class="form-label">Identitas</label>
-                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
                     <input type="text" class="form-control" id="regEmail" required>
                 </div>
 
@@ -1141,20 +1146,20 @@
     </div>
 
     <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
-   
+
     <div id="mainContentWrapper">
         <div id="mainApp" style="display: none;">
             <header class="header">
                 <div class="container">
                     <div class="header-content">
                         <div class="logo">📖 Buku Tamu Online</div>
-                       
+
                         <button class="menu-toggle" onclick="toggleMenu()">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
-                       
+
                     </div>
                 </div>
             </header>
@@ -1216,7 +1221,6 @@
 
                             <div class="form-group">
                                 <label class="form-label">Identitas</label>
-                                <!-- Perubahan: type="email" diubah menjadi type="text" -->
                                 <input type="text" class="form-control" id="guestEmail" required>
                             </div>
 
@@ -1224,13 +1228,11 @@
                                 <label class="form-label">Nomor Telepon</label>
                                 <input type="tel" class="form-control" id="guestPhone" required>
                             </div>
-                            
-                            <!-- START: Kolom Jumlah Tamu Baru -->
+
                             <div class="form-group">
                                 <label class="form-label">Jumlah Tamu</label>
                                 <input type="number" class="form-control" id="guestCount" required value="1" min="1">
                             </div>
-                            <!-- END: Kolom Jumlah Tamu Baru -->
 
                             <div class="form-group">
                                 <label class="form-label">Institusi/Perusahaan</label>
@@ -1256,7 +1258,7 @@
                 <div id="allEntries" class="section">
                     <div class="card">
                         <h2 class="card-title">Semua Entri Buku Tamu</h2>
-                       
+
                         <div class="export-btns">
                             <button class="btn btn-success btn-sm" onclick="exportToCSV()">📊 Export CSV</button>
                             <button class="btn btn-success btn-sm" onclick="exportToPDF()">📄 Export PDF</button>
@@ -1271,7 +1273,7 @@
                                 <option value="">Semua Status</option>
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
-                                <option value="completed">Selesai</option> <!-- Tambah opsi Selesai -->
+                                <option value="completed">Selesai</option>
                             </select>
                             <select class="form-control filter-select" id="filterDate">
                                 <option value="">Semua Tanggal</option>
@@ -1288,9 +1290,7 @@
                                         <th>Tanggal</th>
                                         <th>Nama</th>
                                         <th>Identitas</th>
-                                        <!-- START: Kolom Jumlah Tamu Baru -->
                                         <th>Jumlah Tamu</th>
-                                        <!-- END: Kolom Jumlah Tamu Baru -->
                                         <th>Institusi</th>
                                         <th>Keperluan</th>
                                         <th>Bertemu</th>
@@ -1337,7 +1337,7 @@
                 <div id="users" class="section">
                     <div class="card">
                         <h2 class="card-title">Kelola User</h2>
-                       
+
                         <div class="search-filter">
                             <div class="search-box">
                                 <input type="text" class="form-control" id="searchUsers" placeholder="🔍 Cari nama atau identitas...">
@@ -1379,7 +1379,6 @@
 
                             <div class="form-group">
                                 <label class="form-label">Identitas</label>
-                                <!-- Perubahan: type="email" diubah menjadi type="text" -->
                                 <input type="text" class="form-control" id="profileEmail" required>
                             </div>
 
@@ -1422,20 +1421,20 @@
             </div>
         </div>
     </div>
-   
+
     <nav class="nav-menu" id="navMenu">
         <div style="margin-bottom: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(0, 242, 255, 0.2);">
             <div class="user-info" style="gap: 0.75rem; justify-content: flex-start; display: flex !important;">
-                <div class="user-avatar" id="navUserAvatar" style="width: 50px; height: 50px; font-size: 1.5rem;">A</div>
+                <div class="user-avatar" id="navUserAvatar" style="width: 50px; height: 50px; font-size: 1.5rem; border-radius: 50%; background: var(--color-accent); color: var(--color-bg-dark); display: flex; align-items: center; justify-content: center;">A</div>
                 <div>
                     <div id="navUserName" style="font-weight: 700; font-size: 1.1rem;">User Name</div>
                     <div id="navUserRole" style="font-size: 0.9rem; color: var(--color-primary);">Role</div>
                 </div>
             </div>
         </div>
-        
+
         <!-- MODE TOGGLE SWITCH -->
-        <div class="nav-item theme-switch-container">
+        <div class="nav-item theme-switch-container" onclick="document.getElementById('themeToggle').click()">
             <span class="nav-text" id="themeLabel">Mode Gelap</span>
             <label class="switch">
                 <input type="checkbox" id="themeToggle">
@@ -1468,7 +1467,7 @@
             <span class="nav-icon">⚙️</span>
             <span class="nav-text">Pengaturan</span>
         </button>
-       
+
         <button class="nav-item nav-logout" onclick="logout()">
             <span class="nav-icon">🚪</span>
             <span class="nav-text">Logout</span>
@@ -1499,19 +1498,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Identitas</label>
-                    <!-- Perubahan: type="email" diubah menjadi type="text" -->
                     <input type="text" class="form-control" id="editGuestEmail" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Nomor Telepon</label>
                     <input type="tel" class="form-control" id="editGuestPhone" required>
                 </div>
-                <!-- START: Kolom Jumlah Tamu Baru (Edit) -->
                 <div class="form-group">
                     <label class="form-label">Jumlah Tamu</label>
                     <input type="number" class="form-control" id="editGuestCount" required value="1" min="1">
                 </div>
-                <!-- END: Kolom Jumlah Tamu Baru (Edit) -->
                 <div class="form-group">
                     <label class="form-label">Institusi</label>
                     <input type="text" class="form-control" id="editGuestInstitution" required>
@@ -1563,16 +1559,16 @@
             document.getElementById('confirmMessage').textContent = message;
             confirmCallback = callback;
             const actionBtn = document.getElementById('confirmActionBtn');
-            
+
             let btnClass = 'btn-primary';
             if (title.includes('Hapus') || title.includes('Logout') || title.includes('Nonaktifkan')) {
                 btnClass = 'btn-danger';
             } else if (title.includes('Approve') || title.includes('Aktifkan')) {
                 btnClass = 'btn-success';
-            } else if (title.includes('Selesai')) { // Tombol Selesai
+            } else if (title.includes('Selesai')) {
                 btnClass = 'btn-info';
             }
-            
+
             actionBtn.className = 'btn ' + btnClass;
             actionBtn.textContent = title.includes('Hapus') ? 'Ya, Hapus' : (title.includes('Nonaktifkan') ? 'Ya, Nonaktifkan' : (title.includes('Selesai') ? 'Ya, Selesai' : 'Ya, Lanjutkan'));
             document.getElementById('confirmationModal').classList.add('active');
@@ -1608,7 +1604,7 @@
                 themeLabel.textContent = 'Mode Gelap';
             }
         }
-        
+
         // Listener for the toggle switch
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggleEl = document.getElementById('themeToggle');
@@ -1616,13 +1612,12 @@
                 themeToggleEl.addEventListener('change', toggleTheme);
             }
         });
-        
+
         // --- END THEME TOGGLE LOGIC ---
 
         // Initialize and check session (uses localStorage for session only, not data)
         document.addEventListener('DOMContentLoaded', function() {
             // Memuat data entri dan user dari localStorage untuk DEMO PERSISTENSI ANTARA REFRESH
-            // Hapus baris-baris ini jika Anda benar-benar tidak ingin menggunakan localStorage sama sekali.
             const initialGuestbook = JSON.parse(localStorage.getItem('initialGuestbook')) || [];
             if (initialGuestbook.length > 0) {
                 guestbookEntries = initialGuestbook;
@@ -1641,12 +1636,12 @@
                 document.body.classList.add('light-theme');
                 document.getElementById('themeLabel').textContent = 'Mode Terang';
             } else {
-                 // Default is dark mode, ensure checkbox is unchecked and class is removed if localStorage is corrupted
+                // Default is dark mode, ensure checkbox is unchecked and class is removed if localStorage is corrupted
                 document.getElementById('themeToggle').checked = false;
                 document.body.classList.remove('light-theme');
                 document.getElementById('themeLabel').textContent = 'Mode Gelap';
             }
-            
+
             // Check if user is logged in (session only)
             const savedSession = localStorage.getItem('currentUserSession');
             if (savedSession) {
@@ -1659,37 +1654,41 @@
                     localStorage.removeItem('currentUserSession');
                 }
             }
+
+            // Initialize event listeners for search/filter controls
+            document.getElementById('searchEntries')?.addEventListener('input', loadAllEntries);
+            document.getElementById('filterStatus')?.addEventListener('change', loadAllEntries);
+            document.getElementById('filterDate')?.addEventListener('change', loadAllEntries);
+            document.getElementById('searchUsers')?.addEventListener('input', loadUsers);
+            document.getElementById('filterRole')?.addEventListener('change', loadUsers);
         });
 
         // --- MOCK API FUNCTIONS (RAM based) ---
-        // Simulates fetching all data from a server with a slight delay
         async function fetchEntriesFromServer() {
             return new Promise(resolve => {
                 setTimeout(() => {
+                    // Pastikan guestCount ada dan memiliki nilai default
+                    guestbookEntries.forEach(e => {
+                        if (typeof e.guestCount === 'undefined' || e.guestCount === null) {
+                            e.guestCount = 1;
+                        }
+                    });
                     const sortedEntries = guestbookEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
                     resolve(sortedEntries);
                 }, 10);
             });
         }
 
-        // Simulates updating all data on the server
         async function updateEntryOnServer(newEntries) {
             return new Promise(resolve => {
                 setTimeout(() => {
                     guestbookEntries = newEntries;
-                    // Pastikan guestCount memiliki nilai default (1) jika tidak ada
-                    guestbookEntries.forEach(e => {
-                        if (typeof e.guestCount === 'undefined' || e.guestCount === null) {
-                            e.guestCount = 1;
-                        }
-                    });
-                    localStorage.setItem('initialGuestbook', JSON.stringify(guestbookEntries)); 
+                    localStorage.setItem('initialGuestbook', JSON.stringify(guestbookEntries));
                     resolve(true);
                 }, 10);
             });
         }
-       
-        // Simulates updating users array
+
         async function updateUsersOnServer() {
             return new Promise(resolve => {
                 setTimeout(() => {
@@ -1704,8 +1703,7 @@
         // Login
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            // Note: input type is text now, but label is "Identitas"
-            const email = document.getElementById('loginEmail').value; 
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
             const user = users.find(u => u.email === email && u.password === password);
@@ -1713,7 +1711,7 @@
             if (user && user.status === 'active') {
                 currentUser = user;
                 localStorage.setItem('currentUserSession', JSON.stringify({ id: user.id, role: user.role }));
-               
+
                 showAlert('loginAlert', 'Login berhasil! Mengalihkan...', 'success');
                 setTimeout(() => {
                     showMainApp();
@@ -1742,7 +1740,7 @@
                 showAlert('registerAlert', 'Identitas sudah terdaftar!', 'error');
                 return;
             }
-           
+
             const newUser = {
                 id: nextUserId++,
                 name: document.getElementById('regName').value,
@@ -1757,7 +1755,7 @@
             users.push(newUser);
             await updateUsersOnServer();
             showAlert('registerAlert', 'Registrasi berhasil! Silakan login.', 'success');
-           
+
             setTimeout(() => {
                 closeRegisterModal();
             }, 1000);
@@ -1772,6 +1770,8 @@
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('loginForm').reset();
                 closeMenu();
+                // Ensure dashboard is the default section if they log back in
+                navigateTo('dashboard', document.querySelector('#navMenu .nav-item:nth-child(3)'));
             });
         }
 
@@ -1790,14 +1790,16 @@
 
             loadProfileData();
 
-            // Load data views (Penting: harus dipanggil secara asinkron)
+            // Load data views
             await updateDashboard();
             await loadRecentEntries();
             await loadAllEntries();
             await loadMyEntries();
-            await loadUsers();
-           
-            navigateTo('dashboard', document.querySelector('#navMenu .nav-item:nth-child(3)')); // Adjusted index due to new element
+            if (currentUser.role === 'admin') {
+                await loadUsers();
+            }
+
+            navigateTo('dashboard', document.querySelector('#navMenu button[onclick*="\'dashboard\'"]'));
         }
 
         // Menu Toggle
@@ -1805,11 +1807,11 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.getElementById('navMenu');
             const overlay = document.getElementById('menuOverlay');
-           
+
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
             overlay.classList.toggle('active');
-           
+
             document.body.classList.toggle('content-blurred');
         }
 
@@ -1818,11 +1820,11 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.getElementById('navMenu');
             const overlay = document.getElementById('menuOverlay');
-           
+
             menuToggle.classList.remove('active');
             navMenu.classList.remove('active');
             overlay.classList.remove('active');
-           
+
             document.body.classList.remove('content-blurred');
         }
 
@@ -1830,20 +1832,17 @@
         function navigateTo(sectionId, targetElement) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-           
+
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
-           
-            if (targetElement) {
-                // Ensure the active state is only set for non-toggle buttons
-                if (!targetElement.classList.contains('theme-switch-container')) {
-                     targetElement.classList.add('active');
-                }
+
+            if (targetElement && !targetElement.classList.contains('theme-switch-container')) {
+                 targetElement.classList.add('active');
             } else {
-                const defaultActive = document.querySelector(`.nav-menu button[onclick*="'${sectionId}'"]`);
-                if (defaultActive) defaultActive.classList.add('active');
+                 const defaultActive = document.querySelector(`.nav-menu button[onclick*="'${sectionId}'"]`);
+                 if (defaultActive) defaultActive.classList.add('active');
             }
 
             // Panggil pemuatan data ketika navigasi ke section tertentu
@@ -1863,17 +1862,16 @@
                 userId: currentUser.id,
                 userName: currentUser.name,
                 guestName: document.getElementById('guestName').value,
-                // The field is labeled "Identitas" but stored as 'email'
-                email: document.getElementById('guestEmail').value, 
+                email: document.getElementById('guestEmail').value,
                 phone: document.getElementById('guestPhone').value,
-                guestCount: parseInt(document.getElementById('guestCount').value) || 1, // Simpan Jumlah Tamu
+                guestCount: parseInt(document.getElementById('guestCount').value) || 1,
                 institution: document.getElementById('guestInstitution').value,
                 purpose: document.getElementById('guestPurpose').value,
                 meetWith: document.getElementById('guestMeetWith').value,
                 date: new Date().toISOString(),
                 status: currentUser.role === 'admin' ? 'approved' : 'pending'
             };
-            
+
             // Validasi sederhana untuk Jumlah Tamu
             if (entry.guestCount < 1) {
                 showAlert('mainAlert', 'Jumlah Tamu harus minimal 1.', 'error');
@@ -1885,17 +1883,17 @@
 
             showAlert('mainAlert', 'Entri berhasil disimpan!' + (entry.status === 'pending' ? ' Menunggu approval Admin.' : ''), 'success');
             this.reset();
-            document.getElementById('guestCount').value = 1; // Reset jumlah tamu ke 1
+            document.getElementById('guestCount').value = 1;
 
             await updateDashboard();
             await loadRecentEntries();
         });
-       
-        // Load All Entries
+
+        // Load All Entries - LOGIKA INI MENGATUR TOMBOL APPROVE/SELESAI
         async function loadAllEntries() {
             const tbody = document.getElementById('entriesTable');
             const allData = await fetchEntriesFromServer();
-           
+
             const searchTerm = document.getElementById('searchEntries').value.toLowerCase();
             const statusFilter = document.getElementById('filterStatus').value;
             const dateFilter = document.getElementById('filterDate').value;
@@ -1903,7 +1901,6 @@
             let filtered = filterAndSearchEntries(allData, searchTerm, statusFilter, dateFilter);
 
             if (filtered.length === 0) {
-                // Perluas colspan menjadi 9 (8 kolom data + 1 kolom Aksi)
                 tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
                 return;
             }
@@ -1911,35 +1908,38 @@
             tbody.innerHTML = filtered.map(entry => {
                 let actionButton = '';
                 let statusLabel = '';
-                
+
                 if (entry.status === 'pending') {
                     statusLabel = `<span class="badge badge-pending">Pending</span>`;
+                    // **[FUNGSI SESUAI PERMINTAAN USER]** Tampilkan tombol APPROVE hanya untuk Admin
                     if (currentUser.role === 'admin') {
                         actionButton = `<button class="btn btn-success btn-sm" onclick="approveEntry(${entry.id})">Approve</button>`;
                     }
                 } else if (entry.status === 'approved') {
                     statusLabel = `<span class="badge badge-approved">Approved</span>`;
+                    // Tampilkan tombol TANDAI SELESAI hanya untuk Admin pada entri yang sudah Approved
                     if (currentUser.role === 'admin') {
-                        // Tombol untuk merubah status menjadi Selesai (completed)
                         actionButton = `<button class="btn btn-info btn-sm" onclick="completeEntry(${entry.id})">Tandai Selesai</button>`;
                     }
                 } else if (entry.status === 'completed') {
                     statusLabel = `<span class="badge badge-completed">Selesai</span>`;
                 }
-                
+
+                // Tombol aksi umum (Lihat, Edit, Hapus)
                 const commonButtons = `
                     <button class="btn btn-primary btn-sm" onclick="viewEntry(${entry.id})">Lihat</button>
-                    ${currentUser.role === 'admin' || entry.userId === currentUser.id ? 
+                    ${currentUser.role === 'admin' || entry.userId === currentUser.id ?
+                        // Hanya Admin atau pembuat entri yang bisa Edit/Hapus
                         `<button class="btn btn-secondary btn-sm" onclick="editEntry(${entry.id})">Edit</button>
                          <button class="btn btn-danger btn-sm" onclick="deleteEntry(${entry.id})">Hapus</button>` : ''}
                 `;
-                
+
                 return `
                     <tr>
                         <td>${formatDate(entry.date)}</td>
                         <td>${entry.guestName}</td>
                         <td>${entry.email}</td>
-                        <td>${entry.guestCount || 1}</td> <!-- Tampilkan Jumlah Tamu -->
+                        <td>${entry.guestCount || 1}</td>
                         <td>${entry.institution}</td>
                         <td>${entry.purpose.substring(0, 50)}${entry.purpose.length > 50 ? '...' : ''}</td>
                         <td>${entry.meetWith}</td>
@@ -1955,7 +1955,7 @@
             }).join('');
         }
 
-        // Load My Entries (Tidak perlu Jumlah Tamu di sini, disesuaikan dengan skema tabel yang ada)
+        // Load My Entries
         async function loadMyEntries() {
             const tbody = document.getElementById('myEntriesTable');
             const allData = await fetchEntriesFromServer();
@@ -1984,7 +1984,7 @@
             `).join('');
         }
 
-        // Load Recent Entries (Dashboard) (Tidak perlu Jumlah Tamu di sini, disesuaikan dengan skema tabel yang ada)
+        // Load Recent Entries (Dashboard)
         async function loadRecentEntries() {
             const tbody = document.getElementById('recentEntriesTable');
             const allData = await fetchEntriesFromServer();
@@ -1996,11 +1996,10 @@
             }
 
             tbody.innerHTML = recent.map(entry => {
-                // Total entri di sini bisa dihitung dari guestCount jika diperlukan, tapi saat ini hanya menampilkan entri utama
                 return `
                     <tr>
                         <td>${formatDate(entry.date)}</td>
-                        <td>${entry.guestName}</td>
+                        <td>${entry.guestName} (${entry.guestCount || 1} orang)</td>
                         <td>${entry.institution}</td>
                         <td>${entry.purpose.substring(0, 30)}${entry.purpose.length > 30 ? '...' : ''}</td>
                         <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</span></td>
@@ -2013,16 +2012,16 @@
         async function updateDashboard() {
             const today = new Date().toDateString();
             const allData = await fetchEntriesFromServer();
-           
-            // Hitung total tamu (sum of guestCount) vs total entri (array length)
+
+            // Hitung total tamu (sum of guestCount)
             const totalGuestCount = allData.reduce((sum, entry) => sum + (entry.guestCount || 1), 0);
-           
-            document.getElementById('totalEntries').textContent = totalGuestCount; // Menampilkan total Guest Count
+
+            document.getElementById('totalEntries').textContent = totalGuestCount;
             document.getElementById('totalUsers').textContent = users.length;
-            document.getElementById('pendingEntries').textContent = 
+            document.getElementById('pendingEntries').textContent =
                 allData.filter(e => e.status === 'pending').length;
-            document.getElementById('todayEntries').textContent = 
-                allData.filter(e => new Date(e.date).toDateString() === today).reduce((sum, entry) => sum + (entry.guestCount || 1), 0); // Total Guest Count Hari Ini
+            document.getElementById('todayEntries').textContent =
+                allData.filter(e => new Date(e.date).toDateString() === today).reduce((sum, entry) => sum + (entry.guestCount || 1), 0);
         }
 
         // View Entry
@@ -2032,14 +2031,14 @@
             if (!entry) return;
 
             const statusText = entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai');
-            
+
             const content = `
                 <div style="line-height: 1.8; color: var(--color-text-muted);">
                     <p style="color: var(--color-text);"><strong>Tanggal:</strong> ${formatDate(entry.date)}</p>
                     <p style="color: var(--color-text);"><strong>Nama Tamu:</strong> ${entry.guestName}</p>
                     <p style="color: var(--color-text);"><strong>Identitas:</strong> ${entry.email}</p>
                     <p style="color: var(--color-text);"><strong>Telepon:</strong> ${entry.phone}</p>
-                    <p style="color: var(--color-text);"><strong>Jumlah Tamu:</strong> ${entry.guestCount || 1}</p> <!-- Tampilkan Jumlah Tamu -->
+                    <p style="color: var(--color-text);"><strong>Jumlah Tamu:</strong> ${entry.guestCount || 1}</p>
                     <p style="color: var(--color-text);"><strong>Institusi:</strong> ${entry.institution}</p>
                     <p style="color: var(--color-text);"><strong>Bertemu Dengan:</strong> ${entry.meetWith}</p>
                     <p style="color: var(--color-text);"><strong>Status:</strong> <span class="badge badge-${entry.status}">${statusText}</span></p>
@@ -2068,7 +2067,7 @@
             document.getElementById('editGuestName').value = entry.guestName;
             document.getElementById('editGuestEmail').value = entry.email;
             document.getElementById('editGuestPhone').value = entry.phone;
-            document.getElementById('editGuestCount').value = entry.guestCount || 1; // Muat Jumlah Tamu
+            document.getElementById('editGuestCount').value = entry.guestCount || 1;
             document.getElementById('editGuestInstitution').value = entry.institution;
             document.getElementById('editGuestPurpose').value = entry.purpose;
             document.getElementById('editGuestMeetWith').value = entry.meetWith;
@@ -2096,13 +2095,13 @@
                 guestbookEntries[index].guestName = document.getElementById('editGuestName').value;
                 guestbookEntries[index].email = document.getElementById('editGuestEmail').value;
                 guestbookEntries[index].phone = document.getElementById('editGuestPhone').value;
-                guestbookEntries[index].guestCount = newGuestCount; // Update Jumlah Tamu
+                guestbookEntries[index].guestCount = newGuestCount;
                 guestbookEntries[index].institution = document.getElementById('editGuestInstitution').value;
                 guestbookEntries[index].purpose = document.getElementById('editGuestPurpose').value;
                 guestbookEntries[index].meetWith = document.getElementById('editGuestMeetWith').value;
 
                 await updateEntryOnServer(guestbookEntries);
-               
+
                 await loadAllEntries();
                 await loadMyEntries();
                 await loadRecentEntries();
@@ -2127,7 +2126,7 @@
             });
         }
 
-        // Approve Entry
+        // Approve Entry (Digunakan oleh tombol yang diminta user)
         function approveEntry(id) {
             const entry = guestbookEntries.find(e => e.id === id);
             if (entry) {
@@ -2141,8 +2140,8 @@
                 });
             }
         }
-        
-        // New function: Complete Entry
+
+        // Complete Entry (Digunakan untuk Admin menandai tamu keluar)
         function completeEntry(id) {
             const entry = guestbookEntries.find(e => e.id === id);
             if (entry) {
@@ -2182,13 +2181,13 @@
                     <td><span class="badge badge-${user.status === 'active' ? 'approved' : 'pending'}">${user.status === 'active' ? 'Aktif' : 'Nonaktif'}</span></td>
                     <td>
                         <div class="action-btns">
-                            ${user.id !== currentUser.id ? 
-                                `<button class="btn btn-${user.status === 'active' ? 'warning' : 'success'} btn-sm" 
+                            ${user.id !== currentUser.id ?
+                                `<button class="btn btn-${user.status === 'active' ? 'warning' : 'success'} btn-sm"
                                     onclick="toggleUserStatus(${user.id})">
                                     ${user.status === 'active' ? 'Nonaktifkan' : 'Aktifkan'}
                                 </button>
-                                ${user.role !== 'admin' ? 
-                                    `<button class="btn btn-primary btn-sm" onclick="promoteToAdmin(${user.id})">Jadikan Admin</button>` : 
+                                ${user.role !== 'admin' ?
+                                    `<button class="btn btn-primary btn-sm" onclick="promoteToAdmin(${user.id})">Jadikan Admin</button>` :
                                     `<button class="btn btn-secondary btn-sm" onclick="demoteToUser(${user.id})">Jadikan User</button>`
                                 }` : '<em>Akun Anda</em>'}
                         </div>
@@ -2202,7 +2201,7 @@
             if (user) {
                 const newStatus = user.status === 'active' ? 'inactive' : 'active';
                 const action = user.status === 'active' ? 'menonaktifkan' : 'mengaktifkan';
-               
+
                 showConfirmationModal('Ubah Status User', `Yakin ingin ${action} akun ${user.name}?`, async () => {
                     user.status = newStatus;
                     await updateUsersOnServer();
@@ -2232,14 +2231,12 @@
                     await updateUsersOnServer();
                     loadUsers();
                     showAlert('mainAlert', 'Admin berhasil dijadikan user!', 'success');
+
+                    if (id === currentUser.id) {
+                        logout();
+                        showAlert('loginAlert', 'Role Anda telah diturunkan. Anda telah logout.', 'info');
+                    }
                 });
-            }
-            if (id === currentUser.id) {
-                // Force logout if the current user demotes themselves from admin
-                if (user.role === 'user') {
-                    logout(); 
-                    showAlert('loginAlert', 'Role Anda telah diturunkan. Anda telah logout.', 'info');
-                }
             }
         }
 
@@ -2310,18 +2307,17 @@
         // Export Functions
         async function exportToCSV() {
             const allData = await fetchEntriesFromServer();
-            // Tambahkan "Jumlah Tamu" ke header
             const headers = ['Tanggal', 'Nama Tamu', 'Identitas', 'Jumlah Tamu', 'Telepon', 'Institusi', 'Keperluan', 'Bertemu Dengan', 'Status', 'Dibuat Oleh'];
             const rows = allData.map(entry => [
                 formatDate(entry.date),
                 entry.guestName,
-                entry.email, 
-                entry.guestCount || 1, // Sertakan Jumlah Tamu
+                entry.email,
+                entry.guestCount || 1,
                 entry.phone,
                 entry.institution,
                 entry.purpose.replace(/"/g, '""'),
                 entry.meetWith,
-                entry.status === 'completed' ? 'Selesai' : entry.status, // Perbarui status untuk CSV
+                entry.status === 'completed' ? 'Selesai' : entry.status,
                 entry.userName
             ]);
 
@@ -2341,11 +2337,60 @@
             showAlert('mainAlert', 'Data berhasil di-export ke CSV!', 'success');
         }
 
-        function exportToPDF() {
-            showAlert('mainAlert', 'Fitur export PDF menggunakan fitur cetak browser. Silakan pilih "Simpan sebagai PDF" di dialog cetak.', 'info');
-            setTimeout(() => {
-                printEntries();
-            }, 1000);
+        async function exportToPDF() {
+            const allData = await fetchEntriesFromServer();
+            const filteredEntries = filterAndSearchEntries(
+                allData,
+                document.getElementById('searchEntries').value,
+                document.getElementById('filterStatus').value,
+                document.getElementById('filterDate').value
+            );
+
+            const tableRows = filteredEntries.map(entry => `
+                <tr>
+                    <td>${formatDate(entry.date)}</td>
+                    <td>${entry.guestName}</td>
+                    <td>${entry.email}</td>
+                    <td>${entry.guestCount || 1}</td>
+                    <td>${entry.institution}</td>
+                    <td>${entry.purpose.substring(0, 100)}...</td>
+                    <td>${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</td>
+                </tr>
+            `).join('');
+
+            const content = `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h1 style="text-align: center; color: #0a0e27;">📖 Buku Tamu Online</h1>
+                    <p>Tanggal Cetak: ${formatDate(new Date().toISOString())}</p>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Tanggal</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Nama</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Identitas</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Jumlah Tamu</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Institusi</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Keperluan</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00f2ff; color: #0a0e27;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // HTML2PDF for clean PDF export
+            html2pdf().from(content).set({
+                margin: 10,
+                filename: `buku-tamu-report-${new Date().toISOString().split('T')[0]}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            }).save();
+
+            showAlert('mainAlert', 'Data sedang di-export ke PDF. Tunggu sebentar...', 'info');
         }
 
         async function printEntries() {
@@ -2362,7 +2407,7 @@
                     <td>${formatDate(entry.date)}</td>
                     <td>${entry.guestName}</td>
                     <td>${entry.email}</td>
-                    <td>${entry.guestCount || 1}</td> <!-- Sertakan Jumlah Tamu -->
+                    <td>${entry.guestCount || 1}</td>
                     <td>${entry.institution}</td>
                     <td>${entry.purpose.substring(0, 100)}...</td>
                     <td>${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</td>
@@ -2392,7 +2437,7 @@
                                 <th>Tanggal</th>
                                 <th>Nama</th>
                                 <th>Identitas</th>
-                                <th>Jumlah Tamu</th> <!-- Tambah Header -->
+                                <th>Jumlah Tamu</th>
                                 <th>Institusi</th>
                                 <th>Keperluan</th>
                                 <th>Status</th>
@@ -2410,7 +2455,7 @@
             printWindow.print();
         }
 
-        // Helper function for filtering (now accepts data as argument)
+        // Helper function for filtering
         function filterAndSearchEntries(data, searchTerm, statusFilter, dateFilter) {
             const searchLower = searchTerm.toLowerCase();
 
@@ -2418,16 +2463,12 @@
                 const matchSearch = entry.guestName.toLowerCase().includes(searchLower) ||
                                          entry.institution.toLowerCase().includes(searchLower) ||
                                          entry.purpose.toLowerCase().includes(searchLower);
-               
+
                 let matchStatus = true;
-                if (statusFilter === 'completed') {
-                    matchStatus = entry.status === 'completed';
-                } else if (statusFilter === 'approved') {
-                    matchStatus = entry.status === 'approved';
-                } else if (statusFilter === 'pending') {
-                    matchStatus = entry.status === 'pending';
+                if (statusFilter) {
+                    matchStatus = entry.status === statusFilter;
                 }
-               
+
                 let matchDate = true;
                 if (dateFilter) {
                     const entryDate = new Date(entry.date);
@@ -2438,8 +2479,8 @@
                         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
                         matchDate = entryDate >= weekAgo;
                     } else if (dateFilter === 'month') {
-                        matchDate = entryDate.getMonth() === now.getMonth() && 
-                                         entryDate.getFullYear() === now.getFullYear();
+                        matchDate = entryDate.getMonth() === now.getMonth() &&
+                                           entryDate.getFullYear() === now.getFullYear();
                     }
                 }
 
@@ -2447,24 +2488,12 @@
             }).sort((a, b) => new Date(b.date) - new Date(a.date));
         }
 
-        // Event Listeners for Search & Filter
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('searchEntries')?.addEventListener('input', loadAllEntries);
-            document.getElementById('filterStatus')?.addEventListener('change', loadAllEntries);
-            document.getElementById('filterDate')?.addEventListener('change', loadAllEntries);
-            document.getElementById('searchUsers')?.addEventListener('input', loadUsers);
-            document.getElementById('filterRole')?.addEventListener('change', loadUsers);
-            
-            // Initial call to ensure dashboard uses guestCount for totals
-            updateDashboard(); 
-        });
-
         // Utility Functions
         function formatDate(dateString) {
             const date = new Date(dateString);
-            const options = { 
-                year: 'numeric', 
-                month: 'short', 
+            const options = {
+                year: 'numeric',
+                month: 'short',
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
@@ -2483,32 +2512,28 @@
         }
 
     </script>
-    <script src="/__/firebase/8.10.1/firebase-app.js"></script>
+    <!-- Firebase SDKs are listed here, but the application uses in-memory/localStorage for data persistence as no Firebase implementation was requested -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyAk61uNfD7_k7Cwb3EnvBpfRmytJantLHQ",
-    authDomain: "nurhasan-e7506.firebaseapp.com",
-    projectId: "nurhasan-e7506",
-    storageBucket: "nurhasan-e7506.firebasestorage.app",
-    messagingSenderId: "417511887712",
-    appId: "1:417511887712:web:d866eeae321ec1e3044405",
-    measurementId: "G-ZPTT3TPN5E"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+        // Inisialisasi Firebase (saat ini tidak digunakan untuk data, hanya setup awal)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAk61uNfD7_k7Cwb3EnvBpfRmytJantLHQ",
+            authDomain: "nurhasan-e7506.firebaseapp.com",
+            projectId: "nurhasan-e7506",
+            storageBucket: "nurhasan-e7506.firebasestorage.app",
+            messagingSenderId: "417511887712",
+            appId: "1:417511887712:web:d866eeae321ec1e3044405",
+            measurementId: "G-ZPTT3TPN5E"
+        };
+        try {
+            const app = initializeApp(firebaseConfig);
+            // Anda bisa menambahkan getAuth(app), getFirestore(app) di sini jika menggunakan Firebase
+            // console.log("Firebase initialized.");
+        } catch (e) {
+            // console.error("Firebase initialization error:", e);
+        }
+    </script>
 </body>
-    
+
 
 </html>
-
