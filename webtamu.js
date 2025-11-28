@@ -48,17 +48,49 @@ function closeConfirmationModal() {
     confirmCallback = null;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Add event listener for the custom confirmation action button
-    document.getElementById('confirmActionBtn').addEventListener('click', function() {
-        if (confirmCallback) {
-            confirmCallback();
-        }
-        closeConfirmationModal();
-    });
-});
-// End Custom Confirmation Modal Logic
+// --- Mode Gelap/Terang Functions ---
 
+// Fungsi utama untuk mengubah dan menyimpan tema
+window.toggleTheme = function() {
+    const isChecked = document.getElementById('themeToggle').checked;
+    const body = document.body;
+    const themeLabel = document.getElementById('themeLabel');
+
+    if (isChecked) {
+        // Light Mode
+        body.classList.add('light-theme');
+        localStorage.setItem('themePreference', 'light');
+        if (themeLabel) themeLabel.textContent = 'Mode Terang';
+    } else {
+        // Dark Mode
+        body.classList.remove('light-theme');
+        localStorage.setItem('themePreference', 'dark');
+        if (themeLabel) themeLabel.textContent = 'Mode Gelap';
+    }
+}
+
+// Fungsi untuk memuat tema saat startup
+function loadThemePreference() {
+    const savedTheme = localStorage.getItem('themePreference');
+    const themeToggleEl = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+
+    if (savedTheme === 'light') {
+        if (themeToggleEl) themeToggleEl.checked = true;
+        document.body.classList.add('light-theme');
+        if (themeLabel) themeLabel.textContent = 'Mode Terang';
+    } else {
+        // Default is dark mode
+        if (themeToggleEl) themeToggleEl.checked = false;
+        document.body.classList.remove('light-theme');
+        if (themeLabel) themeLabel.textContent = 'Mode Gelap';
+    }
+    
+    // Pasang listener setelah inisialisasi awal
+    if (themeToggleEl) {
+        themeToggleEl.addEventListener('change', window.toggleTheme);
+    }
+}
 
 // --- Utility Functions ---
 
@@ -96,8 +128,8 @@ function saveUsers() {
 
 // Helper function for filtering (used by loadAllEntries and printEntries)
 function filterAndSearchEntries(searchTerm, statusFilter, dateFilter) {
-     const searchLower = searchTerm.toLowerCase();
-     return guestbookEntries.filter(entry => {
+    const searchLower = searchTerm.toLowerCase();
+    return guestbookEntries.filter(entry => {
         const matchSearch = entry.guestName.toLowerCase().includes(searchLower) ||
                              entry.institution.toLowerCase().includes(searchLower) ||
                              entry.purpose.toLowerCase().includes(searchLower);
@@ -115,7 +147,7 @@ function filterAndSearchEntries(searchTerm, statusFilter, dateFilter) {
                 matchDate = entryDate >= weekAgo;
             } else if (dateFilter === 'month') {
                 matchDate = entryDate.getMonth() === now.getMonth() && 
-                            entryDate.getFullYear() === now.getFullYear();
+                             entryDate.getFullYear() === now.getFullYear();
             }
         }
 
@@ -128,7 +160,18 @@ function filterAndSearchEntries(searchTerm, statusFilter, dateFilter) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Load saved data
+    // 1. Load Theme Preference (PERBAIKAN TEMA DI SINI)
+    loadThemePreference();
+
+    // Add event listener for the custom confirmation action button
+    document.getElementById('confirmActionBtn').addEventListener('click', function() {
+        if (confirmCallback) {
+            confirmCallback();
+        }
+        closeConfirmationModal();
+    });
+
+    // 2. Load saved data
     const savedEntries = localStorage.getItem('guestbookEntries');
     if (savedEntries) {
         guestbookEntries = JSON.parse(savedEntries);
@@ -145,14 +188,14 @@ document.addEventListener('DOMContentLoaded', function() {
         nextUserId = Math.max(...users.map(u => u.id), 0) + 1;
     }
 
-    // Check if user is logged in
+    // 3. Check if user is logged in
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showMainApp();
     }
     
-    // Attach all event listeners
+    // 4. Attach all form submission and filter/search event listeners
     attachEventListeners();
 });
 
@@ -308,7 +351,12 @@ window.closeMenu = function() {
 // Section Navigation (exposed globally for HTML onclick)
 window.navigateTo = function(sectionId, targetElement) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+    // Hapus kelas aktif dari semua item nav, kecuali toggle theme (yang tidak memiliki action lain)
+    document.querySelectorAll('.nav-menu .nav-item').forEach(t => {
+        if (!t.classList.contains('theme-switch-container')) {
+             t.classList.remove('active');
+        }
+    });
     
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
@@ -323,6 +371,11 @@ window.navigateTo = function(sectionId, targetElement) {
         const defaultActive = document.querySelector(`.nav-menu button[onclick*="'${sectionId}'"]`);
         if (defaultActive) defaultActive.classList.add('active');
     }
+
+    // Panggil pemuatan data ketika navigasi ke section tertentu
+    if (sectionId === 'allEntries') loadAllEntries();
+    if (sectionId === 'myEntries') loadMyEntries();
+    if (sectionId === 'users' && currentUser.role === 'admin') loadUsers();
 
     closeMenu();
 }
@@ -370,7 +423,7 @@ function loadAllEntries() {
     let filtered = filterAndSearchEntries(searchTerm, statusFilter, dateFilter);
 
     if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
         return;
     }
 
@@ -815,4 +868,5 @@ window.printEntries = function() {
     printWindow.document.write(content);
     printWindow.document.close();
     printWindow.print();
+
 }
