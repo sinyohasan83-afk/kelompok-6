@@ -1203,6 +1203,7 @@
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Nama</th>
+                                        <th>Jumlah Tamu</th> <!-- BARU: Kolom Jumlah Tamu -->
                                         <th>Institusi</th>
                                         <th>Keperluan</th>
                                         <th>Status</th>
@@ -1210,7 +1211,7 @@
                                 </thead>
                                 <tbody id="recentEntriesTable">
                                     <tr>
-                                        <td colspan="5" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
+                                        <td colspan="6" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1326,6 +1327,7 @@
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Nama Tamu</th>
+                                        <th>Jumlah Tamu</th> <!-- BARU: Kolom Jumlah Tamu -->
                                         <th>Institusi</th>
                                         <th>Keperluan</th>
                                         <th>Status</th>
@@ -1334,7 +1336,7 @@
                                 </thead>
                                 <tbody id="myEntriesTable">
                                     <tr>
-                                        <td colspan="6" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
+                                        <td colspan="7" style="text-align: center; color: var(--color-text-muted);">Memuat data...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1916,6 +1918,7 @@
             let filtered = filterAndSearchEntries(allData, searchTerm, statusFilter, dateFilter);
 
             if (filtered.length === 0) {
+                // Kolom di tabel ini ada 9
                 tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--color-text-muted);">Tidak ada entri</td></tr>';
                 return;
             }
@@ -1980,7 +1983,8 @@
             const myEntries = allData.filter(e => e.userId === currentUser.id);
 
             if (myEntries.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--color-text-muted);">Belum ada entri</td></tr>';
+                // Kolom di tabel ini ada 7
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--color-text-muted);">Belum ada entri</td></tr>';
                 return;
             }
 
@@ -1988,6 +1992,7 @@
                 <tr>
                     <td>${formatDate(entry.date)}</td>
                     <td>${entry.guestName}</td>
+                    <td>${entry.guestCount || 1}</td> <!-- BARU: Kolom Jumlah Tamu dipisah -->
                     <td>${entry.institution}</td>
                     <td>${entry.purpose.substring(0, 50)}${entry.purpose.length > 50 ? '...' : ''}</td>
                     <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</span></td>
@@ -2009,7 +2014,8 @@
             const recent = allData.slice(0, 5);
 
             if (recent.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--color-text-muted);">Belum ada entri</td></tr>';
+                // Kolom di tabel ini ada 6
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--color-text-muted);">Belum ada entri</td></tr>';
                 return;
             }
 
@@ -2017,7 +2023,8 @@
                 return `
                     <tr>
                         <td>${formatDate(entry.date)}</td>
-                        <td>${entry.guestName} (${entry.guestCount || 1} orang)</td>
+                        <td>${entry.guestName}</td>
+                        <td>${entry.guestCount || 1}</td> <!-- DIPISAHKAN: Kolom Jumlah Tamu -->
                         <td>${entry.institution}</td>
                         <td>${entry.purpose.substring(0, 30)}${entry.purpose.length > 30 ? '...' : ''}</td>
                         <td><span class="badge badge-${entry.status}">${entry.status === 'pending' ? 'Pending' : (entry.status === 'approved' ? 'Approved' : 'Selesai')}</span></td>
@@ -2210,7 +2217,7 @@
 
             let filtered = users.filter(user => {
                 const matchSearch = user.name.toLowerCase().includes(searchTerm) ||
-                                     user.email.toLowerCase().includes(searchTerm);
+                                           user.email.toLowerCase().includes(searchTerm);
                 const matchRole = !roleFilter || user.role === roleFilter;
                 return matchSearch && matchRole;
             });
@@ -2516,8 +2523,8 @@
 
             return data.filter(entry => {
                 const matchSearch = entry.guestName.toLowerCase().includes(searchLower) ||
-                                     entry.institution.toLowerCase().includes(searchLower) ||
-                                     entry.purpose.toLowerCase().includes(searchLower);
+                                           entry.institution.toLowerCase().includes(searchLower) ||
+                                           entry.purpose.toLowerCase().includes(searchLower);
 
                 let matchStatus = true;
                 if (statusFilter) {
@@ -2535,7 +2542,7 @@
                         matchDate = entryDate >= weekAgo;
                     } else if (dateFilter === 'month') {
                         matchDate = entryDate.getMonth() === now.getMonth() &&
-                                     entryDate.getFullYear() === now.getFullYear();
+                                           entryDate.getFullYear() === now.getFullYear();
                     }
                 }
 
