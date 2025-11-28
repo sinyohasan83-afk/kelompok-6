@@ -398,6 +398,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
@@ -1598,7 +1599,10 @@
             closeConfirmationModal();
         });
 
-        // --- THEME TOGGLE LOGIC ---
+        // ===================================
+        // --- PERBAIKAN LOGIKA THEME TOGGLE ---
+        // ===================================
+
         function toggleTheme() {
             const isChecked = document.getElementById('themeToggle').checked;
             const body = document.body;
@@ -1617,8 +1621,29 @@
             }
         }
 
-        // Initialize and check session (uses localStorage for session only, not data)
+        // Inisialisasi dan cek session (uses localStorage for session only, not data)
         document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleEl = document.getElementById('themeToggle');
+            const themeLabel = document.getElementById('themeLabel');
+
+            if (themeToggleEl) {
+                themeToggleEl.addEventListener('change', toggleTheme);
+            }
+
+            // --- INICIALISASI TEMA DENGAN BENAR ---
+            const savedTheme = localStorage.getItem('themePreference');
+            if (savedTheme === 'light') {
+                if (themeToggleEl) themeToggleEl.checked = true;
+                document.body.classList.add('light-theme');
+                if (themeLabel) themeLabel.textContent = 'Mode Terang';
+            } else {
+                // Default is dark mode
+                if (themeToggleEl) themeToggleEl.checked = false;
+                document.body.classList.remove('light-theme');
+                if (themeLabel) themeLabel.textContent = 'Mode Gelap';
+            }
+            // --- END INICIALISASI TEMA ---
+
             // Memuat data entri dan user dari localStorage untuk DEMO PERSISTENSI ANTARA REFRESH
             const initialGuestbook = JSON.parse(localStorage.getItem('initialGuestbook')) || [];
             if (initialGuestbook.length > 0) {
@@ -1629,26 +1654,6 @@
             if (savedUsers.length > 0) {
                 users = savedUsers;
                 nextUserId = Math.max(...users.map(u => u.id), 0) + 1;
-            }
-
-            // Theme initialization must happen before checking session to apply correct theme to login page
-            const savedTheme = localStorage.getItem('themePreference');
-            const themeToggleEl = document.getElementById('themeToggle');
-            const themeLabel = document.getElementById('themeLabel');
-            
-            if(themeToggleEl) {
-                themeToggleEl.addEventListener('change', toggleTheme);
-            }
-
-            if (savedTheme === 'light') {
-                if (themeToggleEl) themeToggleEl.checked = true;
-                document.body.classList.add('light-theme');
-                if (themeLabel) themeLabel.textContent = 'Mode Terang';
-            } else {
-                // Default is dark mode
-                if (themeToggleEl) themeToggleEl.checked = false;
-                document.body.classList.remove('light-theme');
-                if (themeLabel) themeLabel.textContent = 'Mode Gelap';
             }
 
             // Check if user is logged in (session only)
@@ -2562,26 +2567,5 @@
         }
 
     </script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script type="module">
-        // Logika inisialisasi Firebase yang tidak memengaruhi fungsi lokal
-        // Karena kode ini menggunakan in-memory/localStorage untuk data.
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js';
-        const firebaseConfig = {
-            apiKey: "AIzaSyAk61uNfD7_k7Cwb3EnvBpfRmytJantLHQ",
-            authDomain: "nurhasan-e7506.firebaseapp.com",
-            projectId: "nurhasan-e7506",
-            storageBucket: "nurhasan-e7506.firebasestorage.app",
-            messagingSenderId: "417511887712",
-            appId: "1:417511887712:web:d866eeae321ec1e3044405",
-            measurementId: "G-ZPTT3TPN5E"
-        };
-        try {
-            const app = initializeApp(firebaseConfig);
-            // console.log("Firebase initialized (placeholder).");
-        } catch (e) {
-            // console.error("Firebase initialization error:", e);
-        }
-    </script>
-</body>
+    </body>
 </html>
